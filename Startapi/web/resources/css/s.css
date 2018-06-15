@@ -96,5 +96,8 @@ ui-datatable.ui-widget.paginated{
 }
 
 .ql-size-huge{
-    font-size: larger
+    font-size: 150%
+}
+.ql-font-monospace{
+    font-family: monospace
 }

@@ -91,7 +91,7 @@
                                             Vest dostupna grupi:
                                             <p:selectOneMenu value="#{registracijaObavestenja.obavestenje.grupa}"  converter="grupaconverter">
                                                 <f:selectItem itemLabel="Izaberite grupu" noSelectionOption="true"/>
-                                                <f:selectItems value="#{registracijaObavestenja.korisnikoveGrupe}" var="grupa" itemLabel="#{grupa.naziv}" itemValue="grupa"/> 
+                                                <f:selectItems value="#{registracijaObavestenja.korisnikoveGrupe}" var="grupa" itemLabel="#{grupa.naziv}" itemValue="#{grupa}" itemDescription="#{grupa.opis}"/> 
                                             </p:selectOneMenu>
                                      </h:panelGrid>     
                                 </ui:fragment>

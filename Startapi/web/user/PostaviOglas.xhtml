@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Postavi oglas</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="../s.css" rel="stylesheet" type="text/css"/>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name = "naziv">Postavi oglas</ui:define>
+
+            <ui:define name="sve"><h:link outcome="/Oglasi" class="text-muted h5">Svi oglasi</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziOglase" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojiOglasi" class="text-muted h5">Moji oglasi</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/PostaviOglas" class="text-muted h5">Postavi oglas</h:link></ui:define>
+            <ui:define name="sadrzaj">
+
+                <h:form>
+                    <p:growl id="growl"/>
+                    <h:panelGrid columns="2">
+                        Naslov oglasa:
+
+                        <h:inputText value="#{postaviOglas.oglas.naslov}" required="true" requiredMessage="Morate uneti naziv vesti"></h:inputText>
+                    </h:panelGrid>
+                    Tekst oglasa:
+
+                    <p:textEditor widgetVar="editor1" value="#{postaviOglas.oglas.tekst}" height="300" style="margin-bottom:10px"/>
+
+
+                    <button type="button" onclick="PF('editor1').clear();" icon="ui-icon-close">Clear</button>
+                    <h:panelGrid columns="3">
+                        Datum objavljivanja oglasa:
+                        <br/>
+                        <p:calendar id="button1" value="#{postaviOglas.oglas.datumIVremePostavljanja}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button" pattern="dd/MM/yyyy HH:mm" />
+
+                        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                            <p:panelGrid id="display" columns="2" columnClasses="label,value">
+
+                                <h:outputText value="#{postaviOglas.oglas.datumIVremePostavljanja}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:dialog>
+                        <br/>
+                        Datum isteka oglasa:
+                        <p:calendar id="button2" value="#{postaviOglas.oglas.datumIVremeIsteka}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button" pattern="dd/MM/yyyy HH:mm" />
+
+                        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                            <p:panelGrid id="display1" columns="2" columnClasses="label,value">
+
+                                <h:outputText value="#{postaviOglas.oglas.datumIVremeIsteka}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:dialog>
+                    </h:panelGrid>
+
+                    Dostupnost oglasa:
+                    <p:selectOneMenu value="#{postaviOglas.vidljivostIzabrana}">
+                        <f:selectItem itemLabel="oglas dostupan svima" itemValue="svi"></f:selectItem>
+                        <f:selectItem itemLabel="oglas dostupan svim registrovanim korisnicima" itemValue="korisnici"></f:selectItem>
+                        <f:selectItem itemLabel="oglas dostupan svim Startap kompanijama" itemValue="startapovi"></f:selectItem>
+                        <f:selectItem itemLabel="pretrazi startap kompanije" itemValue="pretragaSt"></f:selectItem>
+                        <f:selectItem itemLabel="izaberi grupu" itemValue="grupa"></f:selectItem>
+                        <f:ajax event="change" execute="@this" render="pretraga" listener="#{postaviOglas.otvoriPoljaZaPretragu()}" />
+
+                    </p:selectOneMenu>   
+                    <br/>
+                    <h:panelGroup id="pretraga">
+                        <ui:fragment id="startapi" rendered="#{postaviOglas.prSt}">
+                            <ui:insert name="pretragaSt" rendered="true">
+                                <ui:include src="../template/parametriPretrage.xhtml"/>
+                            </ui:insert>
+                            <span class="input-group-btn">  
+                                <h:commandButton action="#{postaviOglas.pretraziSt()}" value="Pretrazi" class="btn btn-outline-dark m-2">
+                                    <p:ajax process="startapi" update="rezultatiStartap growl"></p:ajax>
+                                </h:commandButton></span>
+                            <h:panelGroup id="rezultatiStartap" class="mt-3">
+                                <p:pickList converter="startapCon" value="#{postaviOglas.startapovi}" var="startap" itemLabel="#{startap.punNaziv}" itemValue="#{startap}" required="#{postaviOglas.prSt and param['snimi']!=null}" requiredMessage="Morate izabrati neku startap kompaniju" />
+                            </h:panelGroup>
+
+                        </ui:fragment>
+                    </h:panelGroup>
+
+                    <h:commandButton value="Submit" action="#{postaviOglas.dodaj()}" class="btn btn-outline-dark mt-2">
+                        <f:param name="snimi" value="true"/></h:commandButton>
+
+
+
+                </h:form>
+
+
+            </ui:define>
+            <!--            <ui:define name="jquery"></ui:define>-->
+        </ui:composition>
+
+    </h:body>
+</html>
+

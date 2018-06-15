@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pretraga</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+       
+        <f:metadata>
+            <f:viewParam name="tekst" value="#{nadjiInvestitore.tekstPretrage}" />
+            <f:viewParam name="min" value="#{nadjiInvestitore.minVrednost}" converter="javax.faces.Integer"/>
+            <f:viewParam name="max" value="#{nadjiInvestitore.maxVrednost}" converter="javax.faces.Integer"/>
+            <f:viewParam name="oblast" value="#{nadjiInvestitore.oblastiPoslovanja}" />
+            <f:viewParam name="interesovanja" value="#{pretraziInvestitore.izabranaInteresovanja}"/>
+            <f:viewParam name="vestine" value="#{pretraziInvestitore.izabraneProfVestine}"/>
+            <f:viewParam name="usluge" value="#{nadjiInvestitore.usluge}"/>
+            <f:viewParam name="brojzaposlenihpreko" value="#{nadjiInvestitore.minBrojZaposlenih}" converter="javax.faces.Integer"/>
+            <f:viewParam name="brojzaposlenihispod" value="#{nadjiInvestitore.maxBrojZaposlenih}" converter="javax.faces.Integer"/>
+            <f:viewParam name="delatnost" value="#{pretraziInvestitore.izabraneDelatnosti}" />
+            <f:viewParam name="prihodod" value="#{nadjiInvestitore.minPrihodTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="prihoddo" value="#{nadjiInvestitore.maxPrihodTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="profitod" value="#{nadjiInvestitore.minProfitTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="profitdo" value="#{nadjiInvestitore.maxProfitTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="drzava" value ="#{pretraziInvestitore.izabraneDrzave}"/>
+            <f:viewParam name="gradovi" value ="#{pretraziInvestitore.izabraniGradovi}"/>
+            <f:viewAction action="#{pretraziInvestitore.Pretrazi()}"></f:viewAction>
+
+        </f:metadata>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name="naziv">Rezultat pretrage</ui:define>
+            <ui:define name="content">
+
+
+
+                <p:dataGrid var="investitor" value="#{pretraziInvestitore.rezultat}" columns="3" layout="grid"
+                            rows="12" paginator="true" id="investitori" emptyMessage="Nema rezultata"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                    <f:facet name="header">
+                        Pronadjeni investitori:
+                    </f:facet>
+                    <p:panel header="#{investitor.punNaziv}" style="text-align:center">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <p:graphicImage library="images" name="#{investitor.logo}" width="30%" style="min-width: 100px"/>
+
+                            <h:outputLink>
+                                <h:outputText style="margin:0 auto;" value="Pogledaj profil"/>
+                               
+                            </h:outputLink>
+                        </h:panelGrid>
+                    </p:panel>
+
+
+
+                </p:dataGrid>
+
+
+
+            </ui:define>
+
+        </ui:composition>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </h:body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pretraga</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+      
+        <f:metadata>
+            <f:viewParam name="tekst" value="#{nadjiStartapove.tekstPretrage}" />
+            <f:viewParam name="interesovanja" value="#{pretraziStartapove.izabranaInteresovanja}"/>
+            <f:viewParam name="vestine" value="#{pretraziStartapove.izabraneProfVestine}"/>
+            <f:viewParam name="min" value="#{nadjiStartapove.minVrednost}" converter="javax.faces.Integer"/>
+            <f:viewParam name="max" value="#{nadjiStartapove.maxVrednost}" converter="javax.faces.Integer"/>
+            <f:viewParam name="oblast" value="#{nadjiStartapove.oblastiPoslovanja}" />
+            <f:viewParam name="faza" value="#{nadjiStartapove.trenutnaFaza}"/>
+            <f:viewParam name="brojzaposlenihpreko" value="#{nadjiStartapove.minBrojZaposlenih}" converter="javax.faces.Integer"/>
+            <f:viewParam name="brojzaposlenihispod" value="#{nadjiStartapove.maxBrojZaposlenih}" converter="javax.faces.Integer"/>
+            <f:viewParam name="delatnost" value="#{pretraziStartapove.izabraneDelatnosti}" />
+            <f:viewParam name="prihodod" value="#{nadjiStartapove.minPrihodTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="prihoddo" value="#{nadjiStartapove.maxPrihodTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="profitod" value="#{nadjiStartapove.minProfitTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="profitdo" value="#{nadjiStartapove.maxProfitTriGodine}" converter="javax.faces.Integer"/>
+            <f:viewParam name="drzava" value ="#{pretraziStartapove.izabraneDrzave}"/>
+            <f:viewParam name="gradovi" value ="#{pretraziStartapove.izabraniGradovi}"/>
+            
+            <f:viewAction action="#{pretraziStartapove.Pretrazi()}"></f:viewAction>
+
+        </f:metadata>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name="naziv">Rezultat pretrage</ui:define>
+            <ui:define name="content">
+
+                <p:dataGrid var="startap" value="#{pretraziStartapove.rezultatPretrage}" columns="3" layout="grid"
+                            rows="12" paginator="true" id="startapovi" emptyMessage="Nema rezultata"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                    <f:facet name="header">
+                        Pronadjene Startap kompanije:
+                    </f:facet>
+                    <p:panel header="#{startap.punNaziv}" style="text-align:center">
+                        <h:panelGrid columns="1" style="width:100%">
+                            <h:form>
+
+                                <h:commandLink value="pogledaj profil" action="#{pogledajProfilStartap.dohvatiStartapPoId()}">
+                                    <f:setPropertyActionListener value="#{startap}" target="#{pogledajProfilStartap.startap}"/>
+                                </h:commandLink>
+                            </h:form>
+                          
+                        </h:panelGrid>
+
+                    </p:panel>
+
+
+
+                </p:dataGrid>
+
+
+
+            </ui:define>
+            
+
+        </ui:composition>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </h:body>
+</html>

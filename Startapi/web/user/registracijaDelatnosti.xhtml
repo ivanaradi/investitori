@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registracija Delatnosti</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+
+    </h:head>
+
+    <h:body> 
+        <ui:composition template="../template/template.xhtml">
+            <!--            <ui:define name="content">-->
+            <ui:define name = "naziv">Delatnosti</ui:define>
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-sm-12 mt-5">
+                        <h:form id="postojecedel">    
+                            <p:dataTable id="delatnosti" var="del" value="#{dohvatiDelatnosti.sveDelatnosti}"  paginator="true" rows="8" styleClass="paginated" widgetVar="delTable" filteredValue="#{registracijaDelatnosti.filtriraneDelatnosti}">                    
+                                <p:column sortBy="#{del.naziv}" filterBy="#{del.naziv}">
+                                    <f:facet name="header">
+                                        <h:outputText value="naziv" />
+                                    </f:facet>
+                                    <h:outputText value="#{del.naziv}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                        <div class="row">
+                            <div class="col-sm-12 mt-5">
+                            </div>
+                        </div>
+                        <p class="text-muted h5">Registruj delatnost</p>  
+                        <h:form id="mojaforma">
+
+                            <h:panelGrid columns="3" class="mt-5">
+                                naziv delatnosti:
+                                <p:inputText id="naziv" value="#{registracijaDelatnosti.delatnost.naziv}" required="true" requiredMessage="Obavezno popuniti!">
+                                    <p:ajax event="keyup" listener="#{registracijaDelatnosti.proveriKorisnickoIme}" update="poruka registruj"></p:ajax>  
+                                </p:inputText>
+                                <h:outputLabel for="naziv" id="poruka" value="#{registracijaDelatnosti.poruka}"></h:outputLabel><br/>
+                                <h:message for="naziv" style="color:red"/>                   
+
+                            </h:panelGrid>
+                            <h:commandButton value="Registruj"  id = "registruj"  action="#{registracijaDelatnosti.sacuvajDelatnost}" disabled ="#{registracijaDelatnosti.disejblovano}" class="btn btn-outline-dark">
+                                <p:ajax update="postojecedel mojaforma" process="mojaforma"/>
+                            </h:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>
+
+

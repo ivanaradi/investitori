@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Vesti</title>
+        <!-- nisu potrebni -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+        <f:metadata>
+            <f:viewAction action="#{dohvatiVesti.dohvatiDesetNajnovijihVesti}"/>
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <ui:define name = "naziv">Vesti</ui:define>
+            <ui:define name="sve"> <h:link outcome="/Vesti" class="text-muted h5">Sve vesti</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziVesti" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojeVesti" class="text-muted h5">Moje vesti</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/DodajVest" class="text-muted h5">Objavi vest</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <p class="text-muted h3"> Najnovije vesti: </p>  
+                        <ui:repeat var="vest" value="#{dohvatiVesti.vesti}">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <h:link outcome="/Vest" target="_blank" >
+                                        <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
+                                        <f:param name="naziv" value="#{vest.naziv}" />
+                                        <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                    </h:link> 
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <h:outputText value="Autor: #{vest.korisnikId.punNaziv}" class="text-muted font-italic font-weight-light text-right"/>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ui:repeat var="kategorija" value="#{dohvatiVestiPoKategorijama.vazeceKategorije}">
+                            <p class=" text-muted h5" style="text-transform: capitalize;">   
+                                <h:outputText style="margin:0 auto;" value=" #{kategorija.naslov}"/>
+                            </p> 
+
+                            <ui:repeat var="vest" value="#{dohvatiVestiPoKategorijama.dohvatiNajnovijeVestiPoKategoriji(kategorija.id)}">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <h:link outcome="/Vest" target="_blank" >
+                                            <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
+                                            <f:param name="naziv" value="#{vest.naziv}" />
+                                            <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                        </h:link> 
+                                    </div>
+                                    <div class="col-sm-3 text-right">
+                                        <h:outputText value="By: #{vest.korisnikId.punNaziv}" class="text-muted font-italic font-weight-light text-right"/>
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                            <h:link value="Procitaj sve vesti iz kategorije" outcome="/VestiIzKategorije">
+                                <f:param name="naslov" value="#{kategorija.naslov}" />
+                            </h:link>
+                             <hr/>
+                        </ui:repeat>
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="jquery">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            </ui:define>
+
+        </ui:composition>
+
+
+    </h:body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>vesti</title>
+        <!-- nisu potrebni -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link href="../s.css" rel="stylesheet" type="text/css"/>
+        <f:metadata>
+            <f:viewAction action="#{korisnikoveVesti.dohvatiVesti()}"/>
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+
+
+
+            <ui:define name="sve"> <h:link outcome="/Vesti" class="text-muted h5">Sve vesti</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziVesti" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojeVesti" class="text-muted h5">Moje vesti</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/DodajVest" class="text-muted h5">Objavi vest</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="col-sm-12 border border-top-0 border-muted">
+                    <p class="text-muted h5"> Moje vesti: </p>  
+                    Pokazi arhivirane vesti  
+                    <h:form>
+                        <p:selectBooleanCheckbox value="#{korisnikoveVesti.arhiviraneVesti}">  
+                            <p:ajax event="change" update="@all"/>
+                        </p:selectBooleanCheckbox>
+                    </h:form>
+
+                    <ui:repeat var="vest" value="#{korisnikoveVesti.dohvatiVesti()}">
+
+                        <ui:fragment rendered="#{korisnikoveVesti.arhiviraneVesti and vest.vidljivost == 1}">
+                            
+                             <div class="row">
+                                <div class="col-sm-12">
+                                    <h:link outcome="/Vest" target="_blank" >
+                                        <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
+                                        <f:param name="naziv" value="#{vest.naziv}" />
+                                        <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                    </h:link> <small style="text-align: right"> arhivirana vest</small>  
+                                </div>
+                               
+                            </div>
+                            
+<!--                            <h:link outcome="/Vest" target="_blank">
+                                <h:outputText style="margin:0 auto;" value=" #{vest.naziv}"/>
+                                <f:param name="naziv" value="#{vest.naziv}" />
+                                <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                            </h:link>
+                            -->
+
+
+                        </ui:fragment>
+                        <ui:fragment rendered="#{vest.vidljivost!=1}">
+                            
+                             <div class="row">
+                                <div class="col-sm-12">
+                                    <h:link outcome="/Vest" target="_blank" >
+                                        <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
+                                        <f:param name="naziv" value="#{vest.naziv}" />
+                                        <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                     </h:link>
+                                </div>
+                               
+                            </div>
+                            
+<!--                            <h:link outcome="/Vest" target="_blank">
+                                <h:outputText style="margin:0 auto;" value=" #{vest.naziv}"/>
+                                <f:param name="naziv" value="#{vest.naziv}" />
+                                <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                            </h:link>-->
+
+                        </ui:fragment>
+                    </ui:repeat>
+                </div>
+
+
+            </ui:define>
+        
+        </ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </h:body>
+</html>

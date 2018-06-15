@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body>
+        <ui:composition>
+
+            <div class="row text-center mt-5">
+                <c:if test="#{!login.jeUlogovan()}">
+                    <div class="col-sm-3 border  border-top-0 border-muted pb-2">
+                        <ui:insert name="sve"></ui:insert>
+
+                    </div>
+                    <div class="col-sm-3 border border-left-0 border-top-0 border-muted ">
+                        <ui:insert name="pretraga"></ui:insert>
+
+                    </div>
+
+                    <div class="col-sm-6 border border-left-0 border-top-0 border-right-0 border-muted pr-2">
+                        <ui:insert name="logout"></ui:insert>
+
+                    </div>
+                </c:if>
+                <c:if test="#{login.jeUlogovan()}">
+                    <div class="col-sm-3 border  border-top-0 border-muted pb-2">
+                        <ui:insert name="sve"></ui:insert>
+
+                    </div>
+                    <div class="col-sm-3 border border-left-0 border-top-0 border-muted ">
+                        <ui:insert name="pretraga"></ui:insert>
+
+                    </div>
+                    <div class="col-sm-3 border border-left-0 border-top-0 border-muted">
+                        <ui:insert name="moje"></ui:insert>
+                    </div>
+                    <div class="col-sm-3 border border-left-0 border-top-0 border-muted pr-2">
+                        <ui:insert name="objavi"></ui:insert>
+
+                    </div>
+
+                </c:if>
+
+
+            </div>
+
+
+
+            <div class="row border border-top-0 border-muted p-5">
+                <div class="col-sm-12">
+
+
+                    <ui:insert name="sadrzaj">
+
+                        <ui:insert name="pretragaSt" rendered="false">
+                            <ui:include src="parametriPretrage.xhtml"/>
+                        </ui:insert>
+                        <ui:insert name="pretragaInv" rendered="false">
+                            <ui:include src="parametriPretrageInv.xhtml"/>
+                        </ui:insert>
+
+
+                    </ui:insert> 
+                </div>
+
+            </div>
+
+
+
+        </ui:composition>
+    </h:body>
+
+</html>

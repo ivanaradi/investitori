@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>#{procitajVest.naziv}</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+        <f:metadata>
+
+            <f:viewParam name="naziv" value="#{procitajVest.naziv}" />         
+            <f:viewParam name="d" value="#{procitajVest.datum}"></f:viewParam> 
+            <f:viewAction action="#{procitajVest.procitajVest()}"/>
+        </f:metadata>
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <div class="row m-5">
+                <div class="col-sm-12">
+                    <ui:define name="naziv">#{procitajVest.vest.naziv}</ui:define>
+                </div>
+            </div>
+
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-sm-12 text-muted m-3">
+                        Autor: <h:outputText value="#{procitajVest.vest.korisnikId.punNaziv}"/>               
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="offset-sm-1 col-sm-8 text-center m-3">
+
+                        <h:outputText value="#{procitajVest.vest.tekst}" escape="false"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted m-3">
+                        Datum: <h:outputText value="#{procitajVest.vest.vremeKreiranja}">
+                         <f:convertDateTime pattern="yyyy-MM-dd HH:ss" type="date" />
+                        </h:outputText>               
+                    </div>
+                </div>
+               
+            </ui:define> 
+
+
+
+        </ui:composition>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </h:body>
+</html>
+

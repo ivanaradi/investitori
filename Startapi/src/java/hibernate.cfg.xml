@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">
+        com.mysql.jdbc.Driver
+    </property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/startapi?zeroDateTimeBehavior=convertToNull</property>
+    
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password"></property>
+    <property name="hibernate.connection.pool_size">50</property>
+    <property name="show_sql">true</property>
+    <property name="hibernate.dialect">
+         org.hibernate.dialect.MySQLDialect
+    </property>
+    <property name="hibernate.hbm2dll.auto">update</property>     
+     
+    <mapping class = "model.Anketa"></mapping>
+    <mapping class = "model.Delatnost"></mapping>
+    <mapping class = "model.Diskusija"></mapping>
+    <mapping class = "model.Drzava"></mapping>
+    <mapping class = "model.Grad"></mapping>
+    <mapping class = "model.Grupa"></mapping>
+    <mapping class = "model.Interesovanje"></mapping>
+    <mapping class = "model.Investitor"></mapping>
+    <mapping class = "model.Izvestaj"></mapping>
+    <mapping class = "model.Kategorijadiskusija"></mapping>
+    <mapping class = "model.Kategorijavesti"></mapping>
+    <mapping class = "model.Korisnik"></mapping>
+    <mapping class = "model.Obavestenje"></mapping>
+    <mapping class = "model.Odgovor"></mapping>
+    <mapping class = "model.Oglas"></mapping>
+    <mapping class = "model.Opstina"></mapping>
+    <mapping class = "model.Pitanja"></mapping>
+    <mapping class = "model.Ponudjeniodgovori"></mapping>
+    <mapping class = "model.Profesionalnevestine"></mapping>
+    <mapping class = "model.Projekat"></mapping>
+    <mapping class = "model.Startap"></mapping>
+    <mapping class = "model.Statistike"></mapping>
+    <mapping class = "model.Temadiskusija"></mapping>
+    <mapping class = "model.Ulica"></mapping>
+    <mapping class = "model.Vest"></mapping>
+    <mapping class = "model.Odgovor"></mapping>
+   
+  </session-factory>
+  
+</hibernate-configuration>
+<!--<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/startapi?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
+  </session-factory>
+</hibernate-configuration>-->

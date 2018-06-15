@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pretraga</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <ui:define name="naziv">Pretrazi vesti</ui:define>
+
+            <ui:define name="sve"> <h:link outcome="/Vesti" class="text-muted h5">Sve vesti</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziVesti" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojeVesti" class="text-muted h5">Moje vesti</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/DodajVest" class="text-muted h5">Objavi vest</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <h:form id="pretragaVesti">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h:inputText class="form-control" size="100" value="#{pretraziVesti.tekstPretrage}"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 mt-3">
+                                    <b class="offset-sm-1">Napredna pretraga: </b><p:spacer width="10" height="10" />
+                                    <p:selectBooleanCheckbox value="#{pretraziVesti.napredno}">                               
+                                        <p:ajax event="change" update="napPr" />
+                                    </p:selectBooleanCheckbox> <p:spacer width="10" height="10" />  
+                                    <h:commandButton action="#{pretraziVesti.Pretrazi()}" value="Pretrazi" class="btn btn-outline-dark m-2">
+                                        <p:ajax listener="#{pretraziVesti.Pretrazi()}" process="@all" update="msg v" />
+                                    </h:commandButton>
+                                    <h:panelGroup id="msg">
+                                        <h:panelGrid rendered="#{pretraziVesti.nisuUnetiParametri}">
+                                            <p style="color: red">Niste uneli nijedan parametar za pretragu!</p>
+                                        </h:panelGrid> 
+                                    </h:panelGroup>
+                                    <br/>
+
+                                    <h:panelGroup id="napPr">
+                                        <h:panelGrid columns="2" rendered="#{pretraziVesti.napredno}">
+                                            Autor vesti:
+                                            <h:panelGroup>
+                                                <h:inputText value="#{pretraziVesti.autor}" style="width:192px;">
+                                                </h:inputText><p:spacer width="10" height="10"/>
+                                                <h:outputLink id="autor" value="#">
+                                                    <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                                                </h:outputLink>
+                                                <p:tooltip id="toolTipAutor" for="autor" value="Unesite celi ili delimican naziv kompanije cije vesti zelite da pretrazite" position="right"/>
+                                            </h:panelGroup>
+
+                                            Kategorije vesti: 
+                                            <h:panelGroup>
+                                                <p:selectCheckboxMenu value="#{pretraziVesti.izabraneKategorije}" label="izaberite kategorije"
+                                                                      filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                                    <f:selectItems value="#{pretraziVesti.sveKategorije}" var="kat" itemValue="#{kat.naslov}" itemLabel="#{kat.naslov}" />
+                                                </p:selectCheckboxMenu>
+                                                <p:spacer width="10" height="10" />
+                                                <h:outputLink id="kategorija" value="#">
+                                                    <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                                                </h:outputLink>
+                                                <p:tooltip id="toolTipKategorija" for="kategorija" value="Izaberite jednu ili vise kategorije iz koje zelite da pretrazite vesti" position="right"/>
+                                            </h:panelGroup>
+
+
+                                            Datum objavljivanja izmedju: 
+                                            <p:calendar id="button1" value="#{pretraziVesti.datumObjaveOd}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button"  pattern="dd/MM/yyyy HH:mm">
+
+                                            </p:calendar>
+                                            i
+                                            <p:calendar id="button2" value="#{pretraziVesti.datumObjaveDo}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button"  pattern="dd/MM/yyyy HH:mm">
+                                            </p:calendar>
+
+                                        </h:panelGrid>
+                                    </h:panelGroup>
+
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mt-3">
+                        <h:panelGroup id="v">
+
+                            <p:dataTable id="vesti" var="vest" value="#{pretraziVesti.rezultat}"  paginator="true" rows="10" styleClass="paginated" widgetVar="delTable"
+                                         emptyMessage="Nema rezultata" >                    
+                                <p:column sortBy="#{vest.naziv}">
+                                    <f:facet name="header">
+                                        <h:outputText value="naziv" />
+                                    </f:facet>
+                                    <h:link value="#{vest.naziv}" outcome="/Vest" target="_blank">
+                                        <f:param name="naziv" value="#{vest.naziv}" />
+                                        <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                    </h:link>
+                                </p:column>
+                                <p:column sortBy="#{vest.korisnikId.punNaziv}">
+                                    <f:facet name="header">
+                                        <h:outputText value="autor" />
+                                    </f:facet>
+                                    <h:outputText value="#{vest.korisnikId.punNaziv}"/>
+                                </p:column>
+
+                                <p:column sortBy="#{vest.vremeKreiranja}">
+                                    <f:facet name="header">
+                                        <h:outputText value="datum postavljanja" />
+                                    </f:facet>
+                                    <h:outputText value="#{vest.vremeKreiranja}"/>
+                                </p:column>
+                                <p:column sortBy="#{vest.kategorijaVestiId.naslov}">
+                                    <f:facet name="header">
+                                        <h:outputText value="kategorija" />
+                                    </f:facet>
+                                    <h:outputText value="#{vest.kategorijaVestiId.naslov}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </ui:define>
+
+            <!--            <ui:define name="jquery"></ui:define>-->
+        </ui:composition>
+    </h:body>
+</html>

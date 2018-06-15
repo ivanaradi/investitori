@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"        
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Pocetna</title>  
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <style type="text/css">
+            .dropdown-menu{
+                min-width:200px;
+            }         
+        </style>
+    </h:head>
+
+    <h:body>     
+        <ui:insert name = "header" >
+            <ui:fragment rendered="#{!login.jeUlogovan()}">
+                <ui:include src = "template/header.xhtml"/>
+            </ui:fragment>
+            <ui:fragment rendered="#{login.jeUlogovan()}">
+                <ui:include src = "template/header_user.xhtml"/>
+            </ui:fragment>
+        </ui:insert> 
+
+        <div class="row">
+            <div class="col-sm-3 p-5">
+                <ui:insert name = "left" >
+                    <ui:include src = "template/left.xhtml" />
+                </ui:insert>  
+            </div>
+
+            <div class="col-sm-6">
+                <h2>Podaci o korisniku</h2>
+
+                <p:dataTable value="#{podaciOKorisniku.dohvatiKorisnika()}" id="tabela">
+                    <p:column headerText="naziv">
+                        Naziv:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.punNaziv}"></h:outputText>
+                    </p:column>
+
+
+                    <!--Sediste (ulica, broj, mesto):
+                    <h:outputText value="#{podatak.sediste}"></h:outputText>-->
+
+                    <p:column headerText="pib">
+                        PIB:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.pib}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="telefon">
+                        Kontakt telefon:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.telefon}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="mail">
+                        E-mail adresa:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.mail}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="datum osnivanja:">
+                        Datum osnivanja:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.datumOsnivanja}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <!--                        <p:column headerText="o kompaniji">
+                                            Tekst o kompaniji:
+                                            <h:outputText value="#{korisnik.OKompaniji}"></h:outputText>
+                                            </p:column>-->
+
+                    <p:column headerText="oblast delovanja">
+                        Oblast delovanja:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.oblastiPoslovanja}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="web sajt">
+                        Web adresa sajta:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.webSite}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="korisnicko ime">
+                        Korisnicko ime:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.korisnickoIme}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="lozinka">
+                        Lozinka:
+                        <h:outputText value="#{podaciOKorisniku.ulogovaniKorisnik.lozinka}"></h:outputText>
+                    </p:column>
+                    <p:column headerText="Action">
+                        <p:commandLink>
+                            <h:graphicImage style="width: 40px; height: 40px;" value=""/>
+                            <p:ajax oncomplete="PF('mojdijalog').show();"></p:ajax>
+
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <p:dialog style="dialog" dynamic="true" responsive="true" header="Azuriraj" id="mojdijalog" widgetVar="mojdijalog" position="center center top left">
+                    <h:form id="formaAzuriraj">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Naziv"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.punNaziv}"></p:inputText>
+
+                            <h:outputText value="pib"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.pib}"></p:inputText>
+
+                            <h:outputText value="telefon"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.telefon}"></p:inputText>
+
+                            <h:outputText value="mail"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.mail}"></p:inputText>
+
+                            <h:outputText value="oblast delovanja"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.oblastiPoslovanja}"></p:inputText>
+
+                            <h:outputText value="web sajt"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.webSite}"></p:inputText>
+
+                            <h:outputText value="korisnicko ime"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.korisnickoIme}"></p:inputText>
+
+                            <h:outputText value="lozinka"></h:outputText>
+                            <p:inputText value="#{podaciOKorisniku.ulogovaniKorisnik.lozinka}"></p:inputText>
+
+                            <p:commandLink value="Azuriraj podatke" action="#{podaciOKorisniku.update()}">
+                                <h:graphicImage style="width: 40px; height: 40px;" value="resources/images/edit.png"/>
+                                <p:ajax  update=":tabela" listener="#{podaciOKorisniku.update()}" oncomplete="PF('mojdijalog').hide();"></p:ajax>
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+            <!--<h:commandButton value="Izmeni podatke" rendered="#{not podatak.editMode}" action="#{podatak.setEditMode(true)}" class="btn btn-warning mt-2"></h:commandButton>
+            <h:commandButton value="Sacuvaj izmene" rendered="#{podatak.editMode}" action="#{podatak.setEditMode(false)}" class="btn btn-danger mt-2" ></h:commandButton>
+            <h:commandButton value="Odustani" rendered="#{podatak.editMode}" action="#{podatak.setEditMode(false)}"  class="btn btn-success mt-2"></h:commandButton>-->
+
+            </div>
+
+
+
+            <div class="offset-sm-1 col-sm-2 p-5 text-center">
+                <ui:insert name = "right" >
+                    <ui:include src = "template/right.xhtml" />
+                </ui:insert> 
+            </div>
+        </div>
+
+        <ui:insert name = "footer" >
+            <ui:include src = "template/footer.xhtml" />
+
+        </ui:insert>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registracija kategorija vesti</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body> 
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name = "naziv">Registracija kategorije vesti</ui:define>
+
+            <ui:define name="content">
+                <h:form id="mojaforma">
+
+
+                    <h:panelGrid columns="4" class="mt-5">
+                        naslov kategorije vesti:
+                        <p:inputText id="naziv" value="#{registracijaKategorijeVesti.kategorijaVesti.naslov}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="naziv" style="color:red"/>  
+                        <h:message for="naziv" style="color:white"/>  
+                        datum pocetka vazenja kategorije:
+                        <p:calendar id="pocetak" value="#{registracijaKategorijeVesti.kategorijaVesti.datumPocetka}"  navigator="true" locale="sr" yearRange="c-100:c+100" showOn="button" pattern="dd/MM/yyyy" required="true" requiredMessage="Obavezno popuniti!" />
+                        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                            <p:panelGrid id="kalenadPocetak" columns="2" columnClasses="label,value">
+                                <h:outputText value="#{registracijaKategorijeVesti.kategorijaVesti.datumPocetka}">
+                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" />
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:dialog> 
+                        <h:message for="pocetak" style="color:red"/>
+                        datum do kada vazi:
+                        <p:calendar id="kraj" value="#{registracijaKategorijeVesti.kategorijaVesti.datumKraja}" navigator="true" locale="sr" yearRange="c-100:c+100" showOn="button" pattern="dd/MM/yyyy" required="true" requiredMessage="Obavezno popuniti!" />
+                        <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                            <p:panelGrid id="kalendarKraj" columns="2" columnClasses="label,value">
+                                <h:outputText value="#{registracijaKategorijeVesti.kategorijaVesti.datumKraja}">
+                                    <f:convertDateTime type="date" pattern="yyyy-MM-dd" />
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:dialog>   <h:message for="kraj" style="color:red"/>
+                    </h:panelGrid>
+                    <h:commandButton value="Registruj" action="#{registracijaKategorijeVesti.sacuvajKategoruijuVesti()}" class="btn btn-outline-dark"></h:commandButton>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+
+</html>
+
+
+

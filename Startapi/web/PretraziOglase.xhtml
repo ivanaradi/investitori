@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pretraga</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <ui:define name="naziv">Pretrazi oglase</ui:define>
+
+            <ui:define name="sve"><h:link outcome="/Oglasi" class="text-muted h5">Svi oglasi</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziOglase" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojiOglasi" class="text-muted h5">Moji oglasi</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/PostaviOglas" class="text-muted h5">Postavi oglas</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h:form id="forma">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h:inputText size="100" value="#{pretraziOglase.tekstPretrage}"></h:inputText> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    Napredna pretraga: <p:spacer width="10" height="10" />
+                                    <p:selectBooleanCheckbox value="#{pretraziOglase.napredno}" id="trazeniIznos">                               
+                                        <p:ajax event="change" update="napPr" />
+                                    </p:selectBooleanCheckbox> <p:spacer width="10" height="10" /> 
+                                    <h:commandButton action="#{pretraziOglase.Pretrazi()}" value="Pretrazi" class="btn btn-outline-dark">
+                                        <p:ajax listener="#{pretraziOglase.Pretrazi()}" process="@all" update="msg ogl" />
+                                    </h:commandButton>
+                                    <h:panelGroup id="msg">
+                                        <h:panelGrid rendered="#{pretraziOglase.nisuUnetiParametri}">
+                                            <p style="color: red">Niste uneli nijedan parametar za pretragu!</p>
+                                        </h:panelGrid> 
+                                    </h:panelGroup>
+                                    <br/>
+
+                                    <h:panelGroup id="napPr">
+                                        <h:panelGrid columns="2" rendered="#{pretraziOglase.napredno}">
+                                            Autor oglasa:
+                                               <h:panelGroup>
+                                                 <h:inputText value="#{pretraziOglase.autor}"></h:inputText>
+                                                 <p:spacer width="10" height="10" />
+                                                <h:outputLink id="autor" value="#">
+                                                    <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                                                </h:outputLink>
+                                                <p:tooltip id="toolTipAutor" for="autor" value="Unesite celi ili delimican naziv kompanije cije oglase zelite da pretrazite" position="right"/>
+                                            </h:panelGroup>
+
+                                          
+
+                                            Datum postavljanja oglasa izmedju: 
+                                            <p:calendar id="button1" value="#{pretraziOglase.datumObjaveOd}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button"  pattern="dd/MM/yyyy HH:mm">
+
+                                            </p:calendar>
+                                            i
+                                            <p:calendar id="button2" value="#{pretraziOglase.datumObjaveDo}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button"  pattern="dd/MM/yyyy HH:mm">
+
+                                            </p:calendar>
+
+                                            Datum isteka oglasa izmedju: 
+                                            <p:calendar id="button3" value="#{pretraziOglase.datumIstekaOd}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button"  pattern="dd/MM/yyyy HH:mm">
+
+                                            </p:calendar>
+                                            i
+                                            <p:calendar id="button4" value="#{pretraziOglase.datumIstekaDo}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button"  pattern="dd/MM/yyyy HH:mm">
+
+                                            </p:calendar>
+                                            <!--  </h:outputLabel>-->
+                                        </h:panelGrid>
+                                    </h:panelGroup>
+                                </div>
+                            </div>
+
+                        </h:form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mt-3">
+                        <h:panelGroup id="ogl">
+
+                            <p:dataTable var="oglas" value="#{pretraziOglase.rezultat}"  paginator="true" rows="10" styleClass="paginated"
+                                         emptyMessage="Nema rezultata" >                    
+                                <p:column sortBy="#{oglas.naslov}">
+                                    <f:facet name="header">
+                                        <h:outputText value="naziv" />
+                                    </f:facet>
+                                    <h:link value="#{oglas.naslov}" outcome="/Oglas" target="_blank">
+                                        <f:param name="naslov" value="#{oglas.naslov}" />
+                                        <f:param name="d" value="#{procitajOglas.dateToString(oglas.datumIVremePostavljanja)}"></f:param>
+                                    </h:link>
+                                </p:column>
+                                <p:column sortBy="#{oglas.investitorId.punNaziv}">
+                                    <f:facet name="header">
+                                        <h:outputText value="autor" />
+                                    </f:facet>
+                                    <h:outputText value="#{oglas.investitorId.punNaziv}"/>
+                                </p:column>
+
+                                <p:column sortBy="#{oglas.datumIVremePostavljanja}">
+                                    <f:facet name="header">
+                                        <h:outputText value="datum postavljanja" />
+                                    </f:facet>
+                                    <h:outputText value="#{oglas.datumIVremePostavljanja}">
+                                       <f:convertDateTime pattern="yyyy-MM-dd HH:ss" type="date"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column sortBy="#{oglas.datumIVremeIsteka}">
+                                    <f:facet name="header">
+                                        <h:outputText value="datum isteka" />
+                                    </f:facet>
+                                    <h:outputText value="#{oglas.datumIVremeIsteka}">
+                                       <f:convertDateTime pattern="yyyy-MM-dd HH:ss" type="date"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGroup>
+                    </div>
+                </div>
+
+
+                <script src="js.js" type="text/javascript"></script>
+
+            </ui:define>
+
+            <!--            <ui:define name="jquery"></ui:define>-->
+        </ui:composition>
+    </h:body>
+</html>

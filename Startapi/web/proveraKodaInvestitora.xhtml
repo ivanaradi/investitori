@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+	<title>Pocetna</title>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <style type="text/css">
+            .dropdown-menu{
+                min-width:200px;
+            }
+            
+        </style>
+    </h:head>
+    
+    <h:body> 
+        
+   <ui:insert name = "header" >
+      <ui:include src = "template/header.xhtml" />
+   </ui:insert> 
+        
+   <div class="row">
+            <div class="col-sm-3 p-5">
+   <ui:insert name = "left" >
+      <ui:include src = "template/left.xhtml" />
+   </ui:insert>  
+            </div>
+         
+            <div class="col-sm-6">
+                
+                <h:form id="mojaforma">
+                <h2>Unesite kod koi vam je stigo na mail</h2>
+                
+                    <h:panelGrid columns="3">
+                        
+                        <p:inputNumber id="kod" value="#{proveraKodaInvestitora.noviKod}">                       
+                        </p:inputNumber> 
+                    </h:panelGrid>
+                    <h:commandButton value="Registruj" action="#{proveraKodaInvestitora.sacuvajInvestitora()}" class="btn btn-outline-dark"></h:commandButton>
+                </h:form>
+            </div>
+            
+            
+            
+           <div class="offset-sm-1 col-sm-2 p-5 text-center">
+    <ui:insert name = "right" >
+      <ui:include src = "template/right.xhtml" />
+   </ui:insert> 
+            </div>
+   </div>
+   
+   <ui:insert name = "footer" >
+      <ui:include src = "template/footer.xhtml" />
+   </ui:insert>
+        
+</h:body>
+    
+</html>
+
+

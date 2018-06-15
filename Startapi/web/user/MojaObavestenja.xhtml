@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Obavestenja</title>
+        <!-- nisu potrebni -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link href="../s.css" rel="stylesheet" type="text/css"/>
+        <f:metadata>
+            <f:viewAction action="#{korisnikovaObavestenja.dohvatiObavestenja()}"/>
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+
+
+
+            <ui:define name="sve"> <h:link outcome="/Obavestenja" class="text-muted h5">Sva obavestenja</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziObavestenja" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojaObavestenja" class="text-muted h5">Moja obavestenja</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/registracijaObavestenja" class="text-muted h5">Posalji obavestenje</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="col-sm-12 border border-top-0 border-muted">
+                    <p class="text-muted h5"> Moja obavestenja: </p>  
+                  
+                 
+                    <ui:repeat var="obavestenje" value="#{korisnikovaObavestenja.obavestenja}">
+
+                        
+                             <div class="row">
+                                <div class="col-sm-12">
+                                    <h:link outcome="/Obavestenje" target="_blank" >
+                                        <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{obavestenje.naslov}"/>
+                                        <f:param name="naziv" value="#{obavestenje.naslov}" />
+                                        <f:param name="d" value="#{prebaciDatumUString.dateToString(obavestenje.datumIVremeKreiranja)}"></f:param>
+                                     </h:link>
+                                </div>
+                               
+                            </div>
+                     
+                    </ui:repeat>
+                </div>
+
+
+            </ui:define>
+        
+        </ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </h:body>
+</html>

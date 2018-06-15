@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Oglasi</title>
+        <!-- nisu potrebni -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+        <f:metadata>
+            <f:viewAction action="#{dohvatiOglase.dohvatiOglase()}"/>
+        </f:metadata>
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <ui:define name="sve"><h:link outcome="/Oglasi" class="text-muted h5">Svi oglasi</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziOglase" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojiOglasi" class="text-muted h5">Moji oglasi</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/PostaviOglas" class="text-muted h5">Postavi oglas</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="col-sm-12">
+                    <p class="text-muted h5"> Aktuelni oglasi: </p>  
+                    <h:form> 
+                        <p:dataScroller value="#{dohvatiOglase.aktuelniOglasi}" var="oglas" chunkSize="3">
+                            <f:facet name="loader">
+                                <p:commandButton type="button" value="Pokazi vise" icon="ui-icon-circle-triangle-s"/>
+                            </f:facet>
+
+                            <p:panel id="o" header="#{oglas.naslov}" footer="Oglas istice: #{dohvatiOglase.dateToString(oglas.datumIVremeIsteka)}" style="margin-bottom:20px">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:graphicImage library="images" name="#{oglas.investitorId.logo}" width="30%" style="min-width: 100px"/>
+
+                                <h:outputText value="#{dohvatiOglase.napraviPreview(oglas.tekst)}" escape="false"/>
+                                <h:outputText value="#{oglas.investitorId.punNaziv}" class="text-center" style="color:#85b2cb;"/>
+                                <h:link outcome="/Oglas" target="_blank">
+                                    <h:outputText style="margin:0 auto; color:#1c2433" value="Otvori oglas"/>
+                                    <f:param name="naslov" value="#{oglas.naslov}" />
+                                    <f:param name="d" value="#{procitajOglas.dateToString(oglas.datumIVremePostavljanja)}"></f:param>
+                                </h:link>
+
+                            </h:panelGrid>
+                        </p:panel>
+
+                        </p:dataScroller>
+                    </h:form>
+
+
+                </div>
+
+            </ui:define>
+            <ui:define name="jquery">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>

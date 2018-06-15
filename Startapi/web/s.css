@@ -1,0 +1,23 @@
+.dropdown-menu{
+    min-width:400px;
+}
+.collapsible {
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+}
+.active, .collapsible:hover {
+    cursor: pointer;
+}
+
+.content {
+    display: none;
+    overflow: hidden;
+}
+
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-label {
+width:192px;
+font-weight: normal;
+font-size: normal;
+}

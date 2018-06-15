@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registracija</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+         <link href="s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body> 
+
+       <ui:composition template="template/template.xhtml">
+
+            <ui:define name="content">
+                <h:form id="mojaforma">
+                    <h2>Registracija investitora</h2>
+
+                    <h:panelGrid columns="3">              
+                        korisnicko ime:
+
+                        <p:inputText id="korisnickoIme" value="#{registracijaInvestitora.investitor.korisnickoIme}" required="true" requiredMessage="Obavezno popuniti!">
+                            <p:ajax event="keyup" listener="#{registracijaInvestitora.proveriKorisnickoIme}" update="poruka"></p:ajax>                             
+                        </p:inputText><br/>
+                        <h:outputLabel for="korisnickoIme" id="poruka" value="#{registracijaInvestitora.poruka}"></h:outputLabel><br/>                        
+                        <h:message for="korisnickoIme" style="color:red"/>
+                        lozinka:
+                        <h:inputSecret id="lozinka" value="#{registracijaInvestitora.investitor.lozinka}" required="true" requiredMessage="Obavezno popuniti!"></h:inputSecret>
+                        <h:message for="lozinka" style="color:red"/>
+                        Pun naziv pravnog lica:
+                        <p:inputText id="pravnoLice" value="#{registracijaInvestitora.investitor.punNaziv}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="pravnoLice" style="color:red"/>
+                        Datum osnivanja:
+                        <p:calendar id="datumOsnivanja" value="#{registracijaInvestitora.investitor.datumOsnivanja}" mode="inline" />
+                        <h:message for="datumOsnivanja" style="color:red"/>
+                        Broj registracije:                   
+                        <p:inputNumber id="brojReg" value="#{registracijaInvestitora.investitor.registarskiBroj}" thousandSeparator="" decimalSeparator="." decimalPlaces="0" />
+                        <h:message for="brojReg" style="color:red"/>
+                        PIB:
+                        <p:inputNumber id="pib" value="#{registracijaInvestitora.investitor.pib}" required="true" requiredMessage="Obavezno popuniti!"/>
+                        <h:message for="pib" style="color:red"/>
+                        Ime zastupnika:
+                        <p:inputText id="ime" value="#{registracijaInvestitora.investitor.ime}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="ime" style="color:red"/>
+                        prezime
+                        <p:inputText id="prezime" value="#{registracijaInvestitora.investitor.prezime}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="prezime" style="color:red"/>
+                        srednje ime:
+                        <p:inputText id="srednjeIme" value="#{registracijaInvestitora.investitor.srednjeIme}"></p:inputText>
+                        <h:message for="srednjeIme" style="color:red"/>
+
+                        Drzava
+                        <p:selectOneMenu id ="drzava" value="#{registracijaInvestitora.drzava}" style="min-width:230px" >
+                            <f:selectItems value="#{registracijaInvestitora.drzave}" var="drzava" itemValue="#{drzava.naziv}" itemLabel="#{drzava.naziv}" /> 
+                            <p:ajax event="itemSelect" listener="#{registracijaInvestitora.promeniGradove()}" update="grad opstina ulica"></p:ajax> 
+                        </p:selectOneMenu>
+                        <h:message for="drzava" style="color:red"/>
+
+                        Grad:
+                        <p:selectOneMenu id ="grad"  value="#{registracijaInvestitora.grad}" style="min-width:230px">
+                            <f:selectItems id ="gradovi" value="#{registracijaInvestitora.gradovi}" var="grad" itemValue="#{grad.naziv}" itemLabel="#{grad.naziv}" />  
+                            <p:ajax event="itemSelect" listener="#{registracijaInvestitora.promeniOpstine()}" update="opstina ulica"></p:ajax> 
+                        </p:selectOneMenu>
+                        <h:message for="grad" style="color:red"/>
+
+                        Opstina:
+                        <p:selectOneMenu id ="opstina" value="#{registracijaInvestitora.opstina}" style="min-width:230px">
+                            <f:selectItems value="#{registracijaInvestitora.opstine}" var="opstina" itemValue="#{opstina.naziv}" itemLabel="#{opstina.naziv}" /> 
+                            <p:ajax event="itemSelect" listener="#{registracijaInvestitora.promeniUlice()}" update="ulica"></p:ajax> 
+                        </p:selectOneMenu>
+                        <h:message for="opstina" style="color:red"/>
+
+                        <p:outputLabel value="ulica" for="ulica" />
+                        <p:autoComplete id="ulica" maxResults="5" value="#{registracijaInvestitora.ulicaAC}" completeMethod="#{registracijaInvestitora.completeText}">
+                            <p:ajax event="focus" listener="#{registracijaInvestitora.dohvatiOpstinu()}"></p:ajax>
+                        </p:autoComplete>
+                        <h:message for="ulica" style="color:red"/>
+
+
+                        Broj:
+                        <p:inputNumber id="brojUlice" value="#{registracijaInvestitora.investitor.brojUlice}">                     
+                        </p:inputNumber> 
+                        <h:message for="brojUlice" style="color:red"/>
+
+                        Kontakt telfon:
+                        <p:inputText id="telefon" value="#{registracijaInvestitora.investitor.telefon}" ></p:inputText>
+                        <h:message for="telefon" style="color:red"/>
+
+
+                        Delatnost:                        
+                        <p:selectOneMenu id ="delatnost" value="#{registracijaInvestitora.delatnost}" style="min-width:230px">
+                            <f:selectItems value="#{registracijaInvestitora.delatnosti}" var="delatnost" itemValue="#{delatnost.id}" itemLabel="#{delatnost.naziv}" /> 
+                        </p:selectOneMenu> 
+                        <h:message for="delatnost" style="color:red"/>
+
+                        E-mail:
+                        <p:inputText id="mejl" value="#{registracijaInvestitora.investitor.mail}" validatorMessage="Invalid email format" >
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        </p:inputText>
+                        <h:message for="mejl" style="color:red"/>
+                        Veb sajt:
+                        <p:inputText id="veb" value="#{registracijaInvestitora.investitor.webSite}" required="true" ></p:inputText>
+                        <h:message for="veb" style="color:red"/>
+                        Linkovi ka nalozima na drustvenim mrezama:
+                        <h:inputTextarea id="linkovi" value="#{registracijaInvestitora.investitor.drustveneMrezeId}" required="true"></h:inputTextarea>
+                        <h:message for="linkovi" style="color:red"/>
+                        Oblasti poslovanja:
+                        <h:inputTextarea id="oblasti" value="#{registracijaInvestitora.investitor.oblastiPoslovanja}" required="true" requiredMessage="Obavezno popuniti!"></h:inputTextarea>
+                        <h:message for="oblasti" style="color:red"/>
+                        Broj zaposlenih:
+                        <p:inputNumber id="brojZaposlennih" value="#{registracijaInvestitora.investitor.brojZaposlenih}"/>
+                        <h:message for="brojZaposlennih" style="color:red"/>
+                        Prihodi za poslednje tri godine:
+                        <p:inputNumber id="prihodi" value="#{registracijaInvestitora.investitor.prihodUPoslednjeTriGodine}"/>
+                        <h:message for="prihodi" style="color:red"/>
+                        Profit u poslednje tri godine:
+                        <p:inputNumber id="profit" value="#{registracijaInvestitora.investitor.profitUPoslednjeTriGodine}"/>
+                        <h:message for="profit" style="color:red"/>
+                        <br/>                                  
+                        Tip investitora:
+                        <p:inputText id="tipInvestitora" value="#{registracijaInvestitora.investitor.tipInvestitora}" required="true" ></p:inputText>
+                        <h:message for="tipInvestitora" style="color:red"/>
+                        Vrste usluga koje nudite startapovima:
+                        <h:inputTextarea id="vrsteUsluga" value="#{registracijaInvestitora.investitor.usluge}" required="true" ></h:inputTextarea>
+                        <h:message for="vrsteUsluga" style="color:red"/>
+                        minimalan iznos koji zelite da investirate:
+                        <p:inputNumber id="minimalanIznos" value="#{registracijaInvestitora.investitor.minimalanIznos}" required="true" />
+                        <h:message for="minimalanIznos" style="color:red"/>
+                        maksimalan iznos koji zelite da investirate:
+                        <p:inputNumber id="maksimalanIznos" value="#{registracijaInvestitora.investitor.maksimalanIznos}" required="true" />
+                        <h:message for="maksimalanIznos" style="color:red"/>
+                    </h:panelGrid>
+                    <h:commandButton value="Registruj" action="#{registracijaInvestitora.sacuvajInvestitora()}" class="btn btn-outline-dark"></h:commandButton>                    
+                </h:form>
+             </ui:define>
+
+        </ui:composition>
+    </h:body>
+
+</html>

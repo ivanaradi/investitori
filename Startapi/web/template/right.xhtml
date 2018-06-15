@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body>
+        <ui:composition>
+            <h:link style="text-decoration: none" outcome="/Oglasi">
+                <h5 class="text-center text-muted mt-5 p-3">Oglasi</h5></h:link>
+           
+            <ui:repeat var="oglas" value="#{dohvatiOglase.petOglasa}" id="oglasi">
+                <div class="p-1 border border-muted d-inline-block text-truncate" style="height: 200px; width: 100%">
+
+                    <h4 class="card-title">#{oglas.naslov}</h4>
+                    <p class="card-text">
+                        <h:outputText class="small" escape="false" value="#{oglas.tekst}"/></p>
+                    <p class="card-text text">oglas istice za: #{dohvatiOglase.izracunajVreme(oglas.datumIVremeIsteka)} dana </p>
+                    <h:link class="text-muted nav-link" value="Pogledaj oglas" outcome="/Oglas">
+                        <f:param name="naslov" value="#{oglas.naslov}" />
+                        <f:param name="d" value="#{procitajOglas.dateToString(oglas.datumIVremePostavljanja)}"></f:param>
+                    </h:link>
+
+                </div>
+            </ui:repeat>     
+        </ui:composition>
+    </h:body>
+
+</html>
+

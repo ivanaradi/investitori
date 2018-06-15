@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+	<title>Pocetna</title>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <style type="text/css">
+            .dropdown-menu{
+                min-width:200px;
+            }
+            
+        </style>
+    </h:head>
+    
+    <h:body> 
+        
+   <ui:insert name = "header" >
+      <ui:include src = "template/header.xhtml" />
+   </ui:insert> 
+        
+   <div class="row">
+            <div class="col-sm-3 p-5">
+   <ui:insert name = "left" >
+      <ui:include src = "template/left.xhtml" />
+   </ui:insert>  
+            </div>
+         
+            <div class="col-sm-6">
+                
+                <h:form id="mojaforma">
+                <h2>Registracija startapaa</h2>
+                
+                    <h:panelGrid columns="3">              
+                        Naziv:
+                        <p:inputText id="korisnickoIme" value="#{registracije.startap.korisnickoIme}" required="true" requiredMessage="Obavezno popuniti!">
+                                                        
+                        </p:inputText><br/>
+                        <h:outputLabel for="korisnickoIme" id="poruka" value="#{registracije.poruka}"></h:outputLabel><br/>
+                        
+                        <h:message for="korisnickoIme" style="color:red"/>
+                        lozinka:
+                        <h:inputSecret id="lozinka" value="#{registracije.startap.lozinka}" required="true" requiredMessage="Obavezno popuniti!"></h:inputSecret>
+                        <h:message for="lozinka" style="color:red"/>
+                        Pun naziv pravnog lica:
+                        <p:inputText id="pravnoLice" value="#{registracije.startap.punNaziv}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="pravnoLice" style="color:red"/>
+                        Datum osnivanja:
+                        <p:calendar id="datumOsnivanja" value="#{registracije.startap.datumOsnivanja}" mode="inline" />
+                        <h:message for="datumOsnivanja" style="color:red"/>
+                        Broj registracije:
+<!--                        <h:inputText id="brojReg" value="#{registracije.startap.registarskiBroj}"  converter="javax.faces.Double" required="true" requiredMessage="Obavezno popuniti!"></h:inputText>
+                        <h:message for="brojReg" style="color:red"/>-->
+                        <p:inputNumber id="brojReg" value="#{registracije.startap.registarskiBroj}" thousandSeparator="" decimalSeparator="." decimalPlaces="0" />
+                        <h:message for="brojReg" style="color:red"/>
+                        PIB:
+                        <p:inputNumber id="pib" value="#{registracije.startap.pib}" required="true" requiredMessage="Obavezno popuniti!"/>
+                        <h:message for="pib" style="color:red"/>
+                        Ime zastupnika:
+                        <p:inputText id="ime" value="#{registracije.startap.ime}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="ime" style="color:red"/>
+                         prezime
+                        <p:inputText id="prezime" value="#{registracije.startap.prezime}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="prezime" style="color:red"/>
+                         srednje ime:
+                        <p:inputText id="srednjeIme" value="#{registracije.startap.srednjeIme}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="srednjeIme" style="color:red"/>
+                          <br/>
+                        Drzava
+                        <p:selectOneMenu id ="drzava" value="#{adresa.drzava}" >
+                            <f:selectItems value="#{adresa.drzave}" var="drzava" itemValue="#{drzava.naziv}" itemLabel="#{drzava.naziv}" /> 
+                            <p:ajax event="itemSelect" listener="#{adresa.promeniGradove()}" update="grad"></p:ajax>   
+                        </p:selectOneMenu> 
+                        <br></br>
+                        Grad:
+                        <p:selectOneMenu id ="grad"  value="#{adresa.grad}">
+                            <f:selectItems id ="gradovi" value="#{adresa.gradovi}" var="grad" itemValue="#{grad.naziv}" itemLabel="#{grad.naziv}" />  
+                            <p:ajax event="itemSelect" listener="#{adresa.promeniOpstine()}" update="opstina"></p:ajax>                             
+                        </p:selectOneMenu> 
+                         <br></br>
+                        Opstina:
+                        <p:selectOneMenu id ="opstina" value="#{adresa.opstina}">
+                            <f:selectItems value="#{adresa.opstine}" var="opstina" itemValue="#{opstina.naziv}" itemLabel="#{opstina.naziv}" /> 
+                           <p:ajax event="itemSelect" listener="#{adresa.promeniUlice()}" update="ulica"></p:ajax>                             
+                        </p:selectOneMenu>
+                          <br></br>
+                        
+                        Ulica:
+                        <p:selectOneMenu id ="ulica" value="#{registracije.ulicaId}">
+                            <f:selectItems value="#{adresa.ulice}" var="ulica" itemValue="#{ulica.id}" itemLabel="#{ulica.naziv}" />   	
+                        </p:selectOneMenu> 
+                          <br></br>
+                        
+                        Broj:
+                        <p:inputNumber id="brojUlice" value="#{registracije.startap.brojUlica}">                     
+                        </p:inputNumber> 
+                         <br></br>
+                                     
+                        Kontakt telfon:
+                        <p:inputText id="telefon" value="#{registracije.startap.telefon}" ></p:inputText>
+                        <h:message for="telefon" style="color:red"/>
+                        E-mail:
+                        <p:inputText id="mejl" value="#{registracije.startap.mail}" required="true" ></p:inputText>
+                        <h:message for="mejl" style="color:red"/>
+                        Veb sajt:
+                        <p:inputText id="veb" value="#{registracije.startap.webSite}" required="true" ></p:inputText>
+                        <h:message for="veb" style="color:red"/>
+                        Linkovi ka nalozima na drustvenim mrezama:
+                        <h:inputTextarea id="linkovi" value="#{registracije.startap.drustveneMrezeId}" required="true"></h:inputTextarea>
+                        <h:message for="linkovi" style="color:red"/>
+                        Oblasti poslovanja:
+                        <h:inputTextarea id="oblasti" value="#{registracije.startap.oblastiPoslovanja}" required="true" requiredMessage="Obavezno popuniti!"></h:inputTextarea>
+                        <h:message for="oblasti" style="color:red"/>
+                        Broj zaposlenih:
+                        <p:inputNumber id="brojZaposlennih" value="#{registracije.startap.brojZaposlenih}"/>
+                        <h:message for="brojZaposlennih" style="color:red"/>
+                        Prihodi za poslednje tri godine:
+                        <p:inputNumber id="prihodi" value="#{registracije.startap.prihodUPoslednjeTriGodine}"/>
+                        <h:message for="prihodi" style="color:red"/>
+                        Profit u poslednje tri godine:
+                        <p:inputNumber id="profit" value="#{registracije.startap.profitUPoslednjeTriGodine}"/>
+                        <h:message for="profit" style="color:red"/>
+                        <br/>
+                        Logo:
+                        <p:fileUpload value="#{registracije.logo}"  mode="simple"></p:fileUpload><br/>
+                        trenutna faza firme :
+                        <h:inputTextarea id="tff" value="#{registracije.startap.trenutnaFazaFirme}"></h:inputTextarea>
+                        <h:message for="tff" style="color:red"/>
+                        prethodna investiranja:
+                        <h:inputTextarea id="pi" value="#{registracije.startap.prethodnaInvestiranja}" ></h:inputTextarea>
+                        <h:message for="pi" style="color:red"/>
+                        nagrade:
+                        <h:inputTextarea id="nagrade" value="#{registracije.startap.nagrade}"></h:inputTextarea>
+                        <h:message for="nagrade" style="color:red"/>
+                        reference:
+                        <h:inputTextarea id="reference" value="#{registracije.startap.reference}"></h:inputTextarea>
+                        <h:message for="reference" style="color:red"/>
+                        
+                    </h:panelGrid>
+                    <h:commandButton value="Registruj" action="#{registracije.sacuvajInvestitora()}" class="btn btn-outline-dark"></h:commandButton>
+                </h:form>
+            </div>
+            
+            
+            
+           <div class="offset-sm-1 col-sm-2 p-5 text-center">
+    <ui:insert name = "right" >
+      <ui:include src = "template/right.xhtml" />
+   </ui:insert> 
+            </div>
+   </div>
+   
+   <ui:insert name = "footer" >
+      <ui:include src = "template/footer.xhtml" />
+   </ui:insert>
+        
+</h:body>
+    
+</html>
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>registruj grupu</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="../s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body> 
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name = "naziv">Registracija Grupe</ui:define>
+
+            <ui:define name="sve"><h:link class="text-muted h5">Sve grupe</h:link></ui:define>
+            <ui:define name="pretraga"><h:link class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link  class="text-muted h5">Moje grupe</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/registrujGrupu" class="text-muted h5">Registracija grupe</h:link></ui:define>
+            <ui:define name="sadrzaj">
+
+
+                <h:form id="mojaforma">
+                
+                    <h:panelGrid columns="3">
+                        naziv grupee:
+                        <p:inputText id="naziv" value="#{registracijaGrupe.grupa.naziv}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="naziv" style="color:red"/>
+                        opis:
+                        <h:inputTextarea id="opis" value="#{registracijaGrupe.grupa.opis}" required="true" ></h:inputTextarea>
+                        <h:message for="opis" style="color:red"/>
+
+
+                    </h:panelGrid>
+                    <h:commandButton value="Registruj" action="#{registracijaGrupe.sacuvajGrupu}" class="btn btn-outline-dark"></h:commandButton>
+                </h:form>
+            </ui:define>
+        
+        </ui:composition>
+
+
+    </h:body>
+
+</html>
+
+
+

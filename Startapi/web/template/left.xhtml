@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body>
+        <ui:composition>
+           
+
+
+            <h:link style="text-decoration: none" outcome="/user/registrujGrupu">
+                <h5 class="text-left text-muted border-bottom border-muted mt-3 p-3">Grupe</h5></h:link>
+            
+          <h:link outcome="/user/registracijaObavestenja.xhtml" style="text-decoration: none">
+                <h5 class="text-left text-muted border-bottom border-muted mt-3 p-3">Obavestenja</h5>
+            </h:link>
+        
+           
+            <h:link style="text-decoration: none" outcome="/user/registrujAnketu.xhtml">
+                <h5 class="text-left text-muted border-bottom border-muted mt-3 p-3">Ankete</h5>
+          </h:link>
+           
+
+           
+            <h:link style="text-decoration: none">
+                <h5 class="text-left text-muted border-bottom border-muted mt-3 p-3">Preporuke</h5>
+            </h:link>
+
+         
+            
+            
+        </ui:composition>
+    </h:body>
+
+</html>

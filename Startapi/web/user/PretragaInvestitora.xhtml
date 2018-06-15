@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Pretraga</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+      
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name="naziv">Pretrazi investitore</ui:define>
+            <ui:define name="content">
+
+                <h:form id="pretragaInv">
+                    <p:growl id="growl"/>
+                    <div class="row">
+                        <div class='input-group'>
+
+                            <h:inputText class="form-control" size="100" value="#{nadjiInvestitore.tekstPretrage}"></h:inputText>
+
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            Napredna pretraga:
+                            <p:selectBooleanCheckbox value="#{nadjiInvestitore.napredno}" id="naprInv">                               
+                                <p:ajax event="change" update="napPr" process="@this"/>
+                            </p:selectBooleanCheckbox>
+
+                            <h:panelGroup id="napPr">
+                                <h:panelGrid columns="2" rendered="#{nadjiInvestitore.napredno}">
+
+                                    Planirane investicije:
+                                    <h:inputText value="#{nadjiInvestitore.minVrednost}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    <br/>
+                                    i: 
+                                    <h:inputText value="#{nadjiInvestitore.maxVrednost}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+
+                                    Oblast poslovanja:  
+                                    <h:inputText value="#{nadjiInvestitore.oblastiPoslovanja}"></h:inputText>
+                                    Interesovanja:
+                                    <p:selectCheckboxMenu value="#{pretraziInvestitore.interesovanja}" label="izaberite interesovanja"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                        <f:selectItems value="#{dohvatiInteresovanja.svaInteresovanja}" var="interesovanje" itemValue="#{interesovanje.naziv}" itemLabel="#{interesovanje.naziv}" />
+                                    </p:selectCheckboxMenu>
+                                    Profesionalne vestine:
+                                    <p:selectCheckboxMenu value="#{pretraziInvestitore.profVestine}" label="izaberite profesionalne vestine"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                        <f:selectItems value="#{dohvatiProfesionalneVestine.sveVestine}" var="profvestine" itemValue="#{profvestine.naziv}" itemLabel="#{profvestine.naziv}" />
+                                    </p:selectCheckboxMenu>
+                                    Broj zaposlenih izmedju:
+                                    <h:inputText value="#{nadjiInvestitore.minBrojZaposlenih}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    i: 
+                                    <h:inputText value="#{nadjiInvestitore.maxBrojZaposlenih}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    Delatnost: 
+                                    <p:selectCheckboxMenu id="menu" value="#{pretraziInvestitore.delatnosti}" label="izaberite delatnosti"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                        <f:selectItems value="#{dohvatiDelatnosti.sveDelatnosti}" var="del" itemValue="#{del.naziv}" itemLabel="#{del.naziv}">
+                                        </f:selectItems>
+                                    </p:selectCheckboxMenu>
+                                    Prihod u poslednje tri godine:
+                                    <h:inputText value="#{nadjiInvestitore.minPrihodTriGodine}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    <br/>
+                                    i: 
+                                    <h:inputText value="#{nadjiInvestitore.maxPrihodTriGodine}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    Profit u poslednje tri godine:
+                                    <h:inputText value="#{nadjiInvestitore.minProfitTriGodine}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    <br/>
+                                    i: 
+                                    <h:inputText value="#{nadjiInvestitore.maxProfitTriGodine}">
+                                        <f:convertNumber  integerOnly="true"></f:convertNumber> 
+                                    </h:inputText>
+                                    Drzava:
+                                    <p:selectCheckboxMenu value="#{pretraziInvestitore.drzave}" label="izaberite drzave"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                        <f:selectItems value="#{dohvatiDrzave.sveDrzave}" var="drzava" itemValue="#{drzava.naziv}" itemLabel="#{drzava.naziv}" class="selectItemsWidth"/>
+                                        <p:ajax listener="#{pretraziInvestitore.dohvatiGradove()}" update="gradovi" process="@this"></p:ajax>
+                                    </p:selectCheckboxMenu>
+                                    Grad:                                 
+                                    <p:selectCheckboxMenu id="gradovi" value="#{pretraziInvestitore.gradovi}" label="Izaberite gradove"
+                                                          filter="true" filterMatchMode="startsWith" panelStyle="width:350px">
+                                        <f:selectItems value="#{pretraziInvestitore.dohvaceniGradovi}" var="grad" itemValue="#{grad.naziv}" itemLabel="#{grad.naziv}">
+                                        </f:selectItems>
+                                    </p:selectCheckboxMenu>
+
+                                </h:panelGrid>
+                            </h:panelGroup>
+                           
+                                <h:commandButton action="#{pretraziInvestitore.prosledi()}" value="Pretrazi" class="btn btn-outline-dark m-2"></h:commandButton>
+                            
+                        </div>
+                    </div>
+
+                </h:form>
+
+            </ui:define>
+<!--            <ui:define name="jquery"></ui:define>-->
+        </ui:composition>
+    </h:body>
+</html>

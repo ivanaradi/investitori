@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>vesti</title>
+        <!-- nisu potrebni -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link href="/s.css" rel="stylesheet" type="text/css"/>
+        <f:metadata>
+            <f:viewParam name="naslov" value="#{dohvatiVestiPoKategorijama.naslovKategorije}"/>
+            <f:viewAction action="#{dohvatiVestiPoKategorijama.dohvatiVestiPoKategoriji(dohvatiVestiPoKategorijama.naslovKategorije)}"/>
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="template/template.xhtml">
+            <ui:define name="sve"> <h:link outcome="/Vesti" class="text-muted h5">Sve vesti</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziVesti" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojeVesti" class="text-muted h5">Moje vesti</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/DodajVest" class="text-muted h5">Objavi vest</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="col-sm-12">
+                    <h:form> 
+                        <p:dataScroller value="#{dohvatiVestiPoKategorijama.vestiIzKategorije}" var="vest" chunkSize="10">
+
+                            <h:outputText style="text-transform: capitalize;" value="#{vest.naziv}"/>
+
+
+                            <f:facet name="loader">
+                                <p:commandButton type="button" value="Jos" icon="ui-icon-circle-triangle-s"/>
+                            </f:facet>
+
+                            <h:panelGrid columns="2" style="width:100%; border-bottom: 1px solid #D5D5D5;" columnClasses="logo,detail">
+                                <p:graphicImage name="resources/images/vesti/#{vest.id}/header.gif" /> 
+
+                                <p:outputPanel>
+
+                                    <h:panelGrid columns="1" cellpadding="5">
+
+                                        <h:link value="#{vest.naziv}" outcome="/Vest" style="font-weight: bold" target="_blank">
+                                            <f:param name="naziv" value="#{vest.naziv}" />
+                                            <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                        </h:link>
+                                    </h:panelGrid>  
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputText value="Autor:" />
+                                        <h:outputText value="#{vest.korisnikId.punNaziv}" style="font-weight: bold"/>
+
+                                        <h:outputText value="Datum postavljanja:" />
+                                        <h:outputText value="#{vest.vremeKreiranja}" style="font-weight: bold"/>
+
+
+                                    </h:panelGrid>
+
+                                </p:outputPanel>
+                            </h:panelGrid>
+
+                        </p:dataScroller>
+                    </h:form>
+
+                </div>
+
+            </ui:define>
+        </ui:composition>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </h:body>
+</html>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Dodaj vest</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="../s.css" rel="stylesheet" type="text/css"/>
+
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+            <ui:define name = "naziv">Objavi vest</ui:define>
+            <ui:define name="sve"> <h:link outcome="/Vesti" class="text-muted h5">Sve vesti</h:link></ui:define>
+            <ui:define name="pretraga"><h:link outcome="/PretraziVesti" class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojeVesti" class="text-muted h5">Moje vesti</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/DodajVest" class="text-muted h5">Objavi vest</h:link></ui:define>
+            <ui:define name="sadrzaj">
+
+                <h:form id="form" prependId="true">
+                    <h:panelGrid columns="3">
+                        <h:outputText value="Naziv vesti:"></h:outputText><p:spacer width="10" height="10" />
+                        <p:inputText id="naziv" value="#{dodajVest.vest.naziv}" required="true" requiredMessage="Morate uneti naziv vesti"></p:inputText>
+                        <h:message for="naziv"></h:message> 
+                    </h:panelGrid>
+                    <br/>
+                    Tekst vesti:
+                    <p:textEditor id="teksteditor" widgetVar="editor1" value="#{dodajVest.vest.tekst}" height="300" required="true" requiredMessage="Morati uneti tekst vesti"></p:textEditor>
+                    <br/>
+                    <button type="button" onclick="PF('editor1').clear();" icon="ui-icon-close" class="btn btn-outline-dark m-2">Clear</button>
+                    <h:message for="teksteditor"></h:message> 
+                    <br/>
+                    <h:panelGrid columns="4">
+                        Kategorija vesti:
+                        <p:selectOneMenu id="kat"  value="#{dodajVest.kv}" required="true" requiredMessage="Morate izabrati kategoriju vesti">
+                            <f:selectItem itemLabel="Izaberite kategoriju" itemValue="" />
+                            <f:selectItems value="#{dodajVest.sveKategorije}"  var="kateg" itemLabel="#{kateg.naslov}" itemValue="#{kateg.id}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLink id="kategorijaVEsti" value="#">
+                            <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                        </h:outputLink>
+                        <p:tooltip id="toolTipKategorija" for="kategorijaVEsti" style="width:400px" value="Izaberite u kojoj kategoriji zelite da vasa ves bude objavljena" position="right"/>
+
+
+                        Datum objavljivanja: 
+                        <h:panelGroup> <p:calendar id="button" value="#{dodajVest.vest.vremeKreiranja}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button" pattern="dd/MM/yyyy HH:mm" />
+                        
+                            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                                <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                                    <h:outputText value="#{dodajVest.vest.vremeKreiranja}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                    </h:outputText>
+                                </p:panelGrid>
+                            </p:dialog>
+                        </h:panelGroup>
+                        <h:outputLink id="datum" value="#">
+                            <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                        </h:outputLink>
+                        <p:tooltip id="toolTipDatum" for="datum" style="width:400px" value="Ukoliko ne zelite da vest bude vidljiva odmah, mozete izabrati datum i vreme kada ce postati vidljiva ostalim korisnicima. " position="right"/>
+                        Dostupnost vesti:
+                        <p:selectOneMenu value="#{dodajVest.vidljivostIzabrana}" id="dost" required="true" requiredMessage="Morate izabrati ko sve moze da vidi vest">
+                            <f:selectItem itemLabel="izaberite nivo dostupnosti" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="dostupna svima" itemValue="svi"></f:selectItem>
+                            <f:selectItem itemLabel="dostupna svim Startapima" itemValue="startapovi"></f:selectItem>
+                            <f:selectItem itemLabel="dostupna svim investitorima" itemValue="investitori"></f:selectItem>
+                            <f:selectItem itemLabel="pretrazi startap kompanije" itemValue="pretragaSt"></f:selectItem>
+                            <f:selectItem itemLabel="pretrazi investitore" itemValue="pretragaInv"></f:selectItem>
+                            <f:ajax event="change" execute="@this" render="pretraga" listener="#{dodajVest.otvoriPoljaZaPretragu()}" />
+                        </p:selectOneMenu>   
+                            <h:outputLink id="dostupnost" value="#">
+                            <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                        </h:outputLink>
+                        <p:tooltip id="toolTipDostupnost" for="dostupnost" style="width:400px" value="Mozete izabrati da li ce vasa vest biti javna, dostupna samo registrovanim startap kompanijama ili samo registrovanim investitorima i mozete pretraziti startap kompanije i investitore i izabrati kompanije koje zelite da mogu da vide vasu vest" position="right"/>
+                        <h:message for="dost"></h:message> 
+                    </h:panelGrid>
+                    <h:panelGroup id="pretraga">
+                        <ui:fragment id="startap" rendered="#{dodajVest.prSt}">
+
+                            <ui:insert name="pretragaSt" rendered="true">
+                                <ui:include src="../template/parametriPretrage.xhtml"/>
+                            </ui:insert>
+                            <span class="input-group-btn">
+                                <h:commandButton action="#{dodajVest.pretraziSt()}" value="Pretrazi" class="btn btn-outline-dark m-2">
+                                    <p:ajax process="startap" update="rezultatiStartap growl"></p:ajax>
+                                </h:commandButton>
+                            </span>
+
+                            <h:panelGroup id="rezultatiStartap">
+                                <p:pickList id="pickList" value="#{dodajVest.startapovi}" var="startap" itemLabel="#{startap.punNaziv}" itemValue="#{startap}" converter="startapCon"  required="#{dodajVest.prSt and param['snimi']!=null}" requiredMessage="Morate izabrati neku startap kompaniju"/><p:spacer width="10" height="10" />
+                                <h:outputLink id="rezultSt" value="#">
+                                    <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                                </h:outputLink>
+                                <p:tooltip id="toolTiprezultSt" for="rezultSt" style="width:400px" value="Mozete izabrati neke ili sve kompanije koje su u rezultatu. Kada ste napravili izbor, mozete napraviti dodatnu pretragu i dodati jos korisnika." position="right"/>
+
+                                <h:message for="rezultatiStartap"></h:message> 
+                            </h:panelGroup>
+
+                        </ui:fragment>
+
+                        <ui:fragment id="investitori" rendered="#{dodajVest.prInv}"> 
+
+                            <ui:insert name="parametriPretrageInvestitora" rendered="true">
+                                <ui:include src="../template/parametriPretrageInv.xhtml"/>
+                            </ui:insert>
+
+                            <span class="input-group-btn">
+                                <h:commandButton id="pretraziDugme" action="#{dodajVest.pretraziIn()}" value="Pretrazi" class="btn btn-outline-dark m-2">
+                                    <p:ajax process="investitori" update="rezultatiInvestitor growl"></p:ajax>
+                                </h:commandButton>
+                            </span>
+                            <br/>
+                            <h:panelGroup id="rezultatiInvestitor">
+                                Pronadjeni investitori:   <p:spacer width="10" height="10" />
+                                <h:outputLink id="rezultInv" value="#">
+                                    <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
+                                </h:outputLink>
+                                <p:tooltip for="rezultInv" style="width:400px" value="Mozete izabrati neke ili sve kompanije koje su u rezultatu. Kada ste napravili izbor, mozete napraviti dodatnu pretragu i dodati jos korisnika." position="right"/>
+                                <p:pickList id="pickListInv" value="#{dodajVest.investitori}" var="investitor" itemLabel="#{investitor.punNaziv}" itemValue="#{investitor}" converter="investitorCon" required="#{dodajVest.prInv and param['snimi']!=null}" requiredMessage="Morate izabrati nekog investitora"/>
+                                <h:message for="rezultatiInvestitor"></h:message> 
+
+                            </h:panelGroup>
+                        </ui:fragment>
+                    </h:panelGroup>
+                    <br/>
+                    <h:commandButton id="prikaziDugme" value="Prikazi vest" class="btn btn-outline-dark m-2 mb-3">
+                        <p:ajax partialSubmit="true"  process="naziv teksteditor" update="objavi" oncomplete="PF('pregled').show();"/>
+                    </h:commandButton>    
+                    <h:commandButton id="dodajDugme" value="Objavi vest" action="#{dodajVest.dodaj()}" class="btn btn-outline-dark m-2 mb-3">
+                        <f:param name="snimi" value="true"/>
+
+                    </h:commandButton>
+
+                </h:form>
+
+                <p:dialog widgetVar="pregled" closable="true" closeOnEscape="true" dynamic="true" position="center center top left" style="dialog" responsive="true" header="Objavi vest" minHeight="300" minWidth="500" resizable="true" height="500" width="500">
+                    <h:form id="objavi">
+                        <h:panelGrid columns="1">
+                            <h:outputText class="h3 text-center m-5" value="#{dodajVest.vest.naziv}"></h:outputText>
+                            <h:outputText class="mt-5" value="#{dodajVest.vest.tekst}" escape="false"></h:outputText>
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+</html>

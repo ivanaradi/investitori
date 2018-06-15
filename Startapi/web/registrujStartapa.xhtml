@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Registracija</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link href="s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body> 
+
+        <ui:composition template="template/template.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="mojaforma">
+                    <h2>Registracija startapa</h2>
+
+                    <h:panelGrid columns="3">              
+                        korisnicko ime:
+
+                        <p:inputText id="korisnickoIme" value="#{registracijaStartapa.startap.korisnickoIme}" required="true" requiredMessage="Obavezno popuniti!">
+                            <p:ajax event="keyup" listener="#{registracijaStartapa.proveriKorisnickoIme}" update="poruka"></p:ajax>                             
+                        </p:inputText><br/>
+                        <h:outputLabel for="korisnickoIme" id="poruka" value="#{registracijaStartapa.poruka}"></h:outputLabel><br/>
+
+                        <h:message for="korisnickoIme" style="color:red"/>
+                        lozinka:
+                        <h:inputSecret id="lozinka" value="#{registracijaStartapa.startap.lozinka}" required="true" requiredMessage="Obavezno popuniti!"></h:inputSecret>
+                        <h:message for="lozinka" style="color:red"/>
+                        Pun naziv pravnog lica:
+                        <p:inputText id="pravnoLice" value="#{registracijaStartapa.startap.punNaziv}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="pravnoLice" style="color:red"/>
+                        Datum osnivanja:
+                        <p:calendar id="datumOsnivanja" value="#{registracijaStartapa.startap.datumOsnivanja}" mode="inline" />
+                        <h:message for="datumOsnivanja" style="color:red"/>
+                        Broj registracije:                   
+                        <p:inputNumber id="brojReg" value="#{registracijaStartapa.startap.registarskiBroj}" thousandSeparator="" decimalSeparator="." decimalPlaces="0" />
+                        <h:message for="brojReg" style="color:red"/>
+                        PIB:
+                        <p:inputNumber id="pib" value="#{registracijaStartapa.startap.pib}" required="true" requiredMessage="Obavezno popuniti!"/>
+                        <h:message for="pib" style="color:red"/>
+                        Ime zastupnika:
+                        <p:inputText id="ime" value="#{registracijaStartapa.startap.ime}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="ime" style="color:red"/>
+                        prezime
+                        <p:inputText id="prezime" value="#{registracijaStartapa.startap.prezime}" required="true" requiredMessage="Obavezno popuniti!"></p:inputText>
+                        <h:message for="prezime" style="color:red"/>
+                        srednje ime:
+                        <p:inputText id="srednjeIme" value="#{registracijaStartapa.startap.srednjeIme}"></p:inputText>
+                        <h:message for="srednjeIme" style="color:red"/>
+                        Drzava
+                        <p:selectOneMenu id ="drzava" value="#{registracijaStartapa.drzava}" style="min-width:230px">
+                            <f:selectItems value="#{registracijaStartapa.drzave}" var="drzava" itemValue="#{drzava.naziv}" itemLabel="#{drzava.naziv}" /> 
+                            <p:ajax event="itemSelect" listener="#{registracijaStartapa.promeniGradove()}" update="grad opstina ulica"></p:ajax> 
+                        </p:selectOneMenu> 
+                        <h:message for="drzava" style="color:red"/>
+                        Grad:
+                        <p:selectOneMenu id ="grad"  value="#{registracijaStartapa.grad}" style="min-width:230px">
+                            <f:selectItems id ="gradovi" value="#{registracijaStartapa.gradovi}" var="grad" itemValue="#{grad.naziv}" itemLabel="#{grad.naziv}" />  
+                            <p:ajax event="itemSelect" listener="#{registracijaStartapa.promeniOpstine()}" update="opstina ulica"></p:ajax> 
+                        </p:selectOneMenu> 
+                        <h:message for="grad" style="color:red"/>
+                        Opstina:
+                        <p:selectOneMenu id ="opstina" value="#{registracijaStartapa.opstina}" style="min-width:230px">
+                            <f:selectItems value="#{registracijaStartapa.opstine}" var="opstina" itemValue="#{opstina.naziv}" itemLabel="#{opstina.naziv}" /> 
+                            <p:ajax event="itemSelect" listener="#{registracijaStartapa.promeniUlice()}" update="ulica"></p:ajax> 
+
+                        </p:selectOneMenu>
+                        <h:message for="opstina" style="color:red"/>
+
+                        Ulica:
+                        <p:autoComplete id="ulica" maxResults="5" value="#{registracijaStartapa.ulicaAC}" completeMethod="#{registracijaStartapa.completeText}">
+                            <p:ajax event="focus" listener="#{registracijaStartapa.dohvatiOpstinu()}"></p:ajax>
+                        </p:autoComplete>
+                        <h:message for="ulica" style="color:red"/>
+
+                        Broj:
+                        <p:inputNumber id="brojUlice" value="#{registracijaStartapa.startap.brojUlice}">                     
+                        </p:inputNumber> 
+                        <h:message for="brojUlice" style="color:red"/>
+
+                        Kontakt telfon:
+                        <p:inputText id="telefon" value="#{registracijaStartapa.startap.telefon}" ></p:inputText>
+                        <h:message for="telefon" style="color:red"/>
+
+                        Delatnost:                        
+                        <p:selectOneMenu id ="delatnost" value="#{registracijaStartapa.delatnost}" >
+                            <f:selectItems value="#{registracijaStartapa.delatnosti}" var="delatnost" itemValue="#{delatnost.id}" itemLabel="#{delatnost.naziv}" />                             
+                        </p:selectOneMenu>
+                        <h:message for="delatnost" style="color:red"/>                        
+                        E-mail:
+                        <p:inputText id="mejl" value="#{registracijaStartapa.startap.mail}" validatorMessage="Invalid email format" >
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                        </p:inputText>
+                        <h:message for="mejl" style="color:red"/>
+                        Veb sajt:
+                        <p:inputText id="veb" value="#{registracijaStartapa.startap.webSite}" required="true" ></p:inputText>
+                        <h:message for="veb" style="color:red"/>
+                        Linkovi ka nalozima na drustvenim mrezama:
+                        <h:inputTextarea id="linkovi" value="#{registracijaStartapa.startap.drustveneMrezeId}" required="true"></h:inputTextarea>
+                        <h:message for="linkovi" style="color:red"/>
+                        Oblasti poslovanja:
+                        <h:inputTextarea id="oblasti" value="#{registracijaStartapa.startap.oblastiPoslovanja}" required="true" requiredMessage="Obavezno popuniti!"></h:inputTextarea>
+                        <h:message for="oblasti" style="color:red"/>
+                        Broj zaposlenih:
+                        <p:inputNumber id="brojZaposlennih" value="#{registracijaStartapa.startap.brojZaposlenih}"/>
+                        <h:message for="brojZaposlennih" style="color:red"/>
+                        Prihodi za poslednje tri godine:
+                        <p:inputNumber id="prihodi" value="#{registracijaStartapa.startap.prihodUPoslednjeTriGodine}"/>
+                        <h:message for="prihodi" style="color:red"/>
+                        Profit u poslednje tri godine:
+                        <p:inputNumber id="profit" value="#{registracijaStartapa.startap.profitUPoslednjeTriGodine}"/>
+                        <h:message for="profit" style="color:red"/>
+                        trenutna faza firme:
+                        <h:inputTextarea id="tff" value="#{registracijaStartapa.startap.trenutnaFazaFirme}"></h:inputTextarea>
+                        <h:message for="tff" style="color:red"/>
+                        nagrade:
+                        <h:inputTextarea id="nagrade" value="#{registracijaStartapa.startap.nagrade}" ></h:inputTextarea>
+                        <h:message for="nagrade" style="color:red"/>
+                        reference:
+                        <h:inputTextarea id="reference" value="#{registracijaStartapa.startap.reference}"></h:inputTextarea>
+                        <h:message for="reference" style="color:red"/>                       
+
+                    </h:panelGrid>
+                    <h:commandButton value="Registruj" action="#{registracijaStartapa.sacuvajStartapa()}" class="btn btn-outline-dark"></h:commandButton>                    
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+    </h:body>
+
+</html>

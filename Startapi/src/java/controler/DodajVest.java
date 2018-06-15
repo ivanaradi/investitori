@@ -27,6 +27,8 @@ import org.primefaces.model.DualListModel;
  *
  * @author Korisnik
  */
+
+//dodajem koment
 @ManagedBean
 @ViewScoped
 public class DodajVest implements Serializable {

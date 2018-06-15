@@ -1,6 +1,7 @@
 package controler;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -184,6 +185,9 @@ public class RegistracijaObavestenja {
 
             if (!izabraniKor.isEmpty()) {
                 obavestenje.setKorisnikCollection(izabraniKor);
+            }
+            if(obavestenje.getDatumIVremeKreiranja()== null){
+                obavestenje.setDatumIVremeKreiranja(new Date());
             }
         } else {
 

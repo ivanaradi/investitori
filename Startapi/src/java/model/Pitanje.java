@@ -78,7 +78,7 @@ public class Pitanje implements Serializable {
     public String getTekst() {
         return tekst;
     }
-
+//a
     public void setTekst(String tekst) {
         this.tekst = tekst;
     }

@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Investitor.findAll", query = "SELECT i FROM Investitor i")
-    , @NamedQuery(name = "Investitor.findByLogo", query = "SELECT i FROM Investitor i WHERE i.logo = :logo")
     , @NamedQuery(name = "Investitor.findByTipInvestitora", query = "SELECT i FROM Investitor i WHERE i.tipInvestitora = :tipInvestitora")
     , @NamedQuery(name = "Investitor.findByUsluge", query = "SELECT i FROM Investitor i WHERE i.usluge = :usluge")
     , @NamedQuery(name = "Investitor.findByMinimalanIznos", query = "SELECT i FROM Investitor i WHERE i.minimalanIznos = :minimalanIznos")
@@ -42,9 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Investitor extends Korisnik implements Serializable {
  
     private static final long serialVersionUID = 1L;
-    @Size(max = 50)
-    @Column(name = "logo")
-    private String logo;
     @Size(max = 45)
     @Column(name = "tipInvestitora")
     private String tipInvestitora;
@@ -80,7 +76,7 @@ public class Investitor extends Korisnik implements Serializable {
     public Investitor(int id, String naziv, String logo ){
         this.setId(id);
         this.setPunNaziv(naziv);
-        this.logo = logo;
+        this.setLogo(logo);
     }
 
 //    public Investitor(Integer id) {
@@ -92,13 +88,7 @@ public class Investitor extends Korisnik implements Serializable {
 //        this.maksimalanIznos = maksimalanIznos;
 //    }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
+ 
 
     public String getTipInvestitora() {
         return tipInvestitora;

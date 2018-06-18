@@ -116,8 +116,17 @@ public abstract class Korisnik implements Serializable {
     @Column(name = "telefon")
     private BigInteger telefon;
     @Size(max = 50)
-    @Column(name = "mail")
+    @Column(name = "mail")    
     private String mail;
+    @Size(max = 100)
+    @Column(name = "logo")
+    private String logo;
+    @Column(name = "datumRegistracije")
+    @Temporal(TemporalType.DATE)
+    private Date datumRegistracije;
+    @Column(name = "datumposlednjeglogovanja")
+    @Temporal(TemporalType.DATE)
+    private Date datumposlednjeglogovanja;    
     @Size(max = 100)
     @Column(name = "webSite")
     private String webSite;
@@ -156,8 +165,7 @@ public abstract class Korisnik implements Serializable {
     private Collection<Temadiskusija> temadiskusijaCollection1;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "korisnik")
     private Statistike statistike;
-    @OneToMany(mappedBy = "korisnikId")
-    
+    @OneToMany(mappedBy = "korisnikId")    
     private Collection<Vest> vestCollection1;
     @JoinColumn(name = "delatnostId", referencedColumnName = "id")
     @ManyToOne
@@ -216,6 +224,31 @@ public abstract class Korisnik implements Serializable {
     public void setKorisnickoIme(String korisnickoIme) {
         this.korisnickoIme = korisnickoIme;
     }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public Date getDatumRegistracije() {
+        return datumRegistracije;
+    }
+
+    public void setDatumRegistracije(Date datumRegistracije) {
+        this.datumRegistracije = datumRegistracije;
+    }
+
+    public Date getDatumposlednjeglogovanja() {
+        return datumposlednjeglogovanja;
+    }
+
+    public void setDatumposlednjeglogovanja(Date datumposlednjeglogovanja) {
+        this.datumposlednjeglogovanja = datumposlednjeglogovanja;
+    }
+    
 
     public String getLozinka() {
         return lozinka;

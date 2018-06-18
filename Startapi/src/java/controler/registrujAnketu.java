@@ -10,29 +10,31 @@ import javax.servlet.http.HttpSession;
 import model.Anketa;
 import model.Investitor;
 import model.Korisnik;
-import model.Pitanja;
+import model.Odgovor;
+import model.Pitanje;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+
 @ManagedBean
 @ViewScoped
-public class registrujAnketu implements Serializable {
-
+public class registrujAnketu  implements Serializable {
+    
     static final long serialVersionUID = -687991492884005033L;
-
-    private Investitor i = new Investitor();
-    private Anketa anketa = new Anketa();
-    private String ponudjeniodgovor1;
-    private String ponudjeniodgovor2;
-    private String ponudjeniodgovor3;
-    private String ponudjeniodgovor4;
-    private String tekst;
-    private String maksimalanBrojPitanja = "";
-    private byte b = 0;
-    private boolean disabled = false;
-
-    List<Pitanja> pitanja = new ArrayList();
+    
+    Investitor i;
+    Anketa anketa = new Anketa();  
+    String ponudjeniodgovor1;
+    String ponudjeniodgovor2;
+    String ponudjeniodgovor3;
+    String ponudjeniodgovor4;
+    String tekst; 
+    String maksimalanBrojPitanja="";
+    byte b = 0;
+    boolean disabled = false;
+    
+    List<Pitanje> pitanja = new ArrayList();
 
     public String getPonudjeniodgovor1() {
         return ponudjeniodgovor1;
@@ -90,30 +92,6 @@ public class registrujAnketu implements Serializable {
         this.maksimalanBrojPitanja = maksimalanBrojPitanja;
     }
 
-    public Investitor getI() {
-        return i;
-    }
-
-    public void setI(Investitor i) {
-        this.i = i;
-    }
-
-    public byte getB() {
-        return b;
-    }
-
-    public void setB(byte b) {
-        this.b = b;
-    }
-
-    public List<Pitanja> getPitanja() {
-        return pitanja;
-    }
-
-    public void setPitanja(List<Pitanja> pitanja) {
-        this.pitanja = pitanja;
-    }
-
     public void setAnketa(Anketa anketa) {
         this.anketa = anketa;
     }
@@ -129,70 +107,99 @@ public class registrujAnketu implements Serializable {
 //    public void setI(Investitor i) {
 //        this.i = i;
 //    } 
-    public void dodajPitanje() {
-        Pitanja p = new Pitanja();
-        p.setTekset(tekst);
-        p.setAnketaId(anketa);
-        p.setPonudjeniOdgovor1(ponudjeniodgovor1);
-        p.setPonudjeniOdgovor2(ponudjeniodgovor2);
-        p.setPonudjeniOdgovor3(ponudjeniodgovor3);
-        p.setPonudjeniOdgovor4(ponudjeniodgovor4);
-        pitanja.add(p);
-        tekst = null;
-        ponudjeniodgovor1 = null;
-        ponudjeniodgovor2 = null;
-        ponudjeniodgovor3 = null;
-        ponudjeniodgovor4 = null;
-        b += 1;
-
-        if (b >= 20) {
-            maksimalanBrojPitanja = "dozvoljeno je maksimalno 20 pitanja";
-            disabled = true;
-        }
-
+    
+    public void dodajPitanje(){
+    Pitanje p = new Pitanje();
+    p.setTekst(tekst);
+    p.setAnketaId(anketa);
+    List<Odgovor> listaOdgovora = new ArrayList();
+    
+    if(ponudjeniodgovor1!=null&&ponudjeniodgovor1.trim().equals("")){
+     Odgovor po = new Odgovor();
+     po.setTekst(ponudjeniodgovor1);
+     listaOdgovora.add(po);
+     
     }
-
-    public String registruj() {
-        HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        
-        if (user.getAttribute("ulogovaniKorisnik") != null && user.getAttribute("tip").equals("investitor")) {
+    if(ponudjeniodgovor2!=null&&ponudjeniodgovor2.trim().equals("")){
+     Odgovor po = new Odgovor();
+     po.setTekst(ponudjeniodgovor2);
+     listaOdgovora.add(po);
+     
+    }
+    if(ponudjeniodgovor3!=null&&ponudjeniodgovor3.trim().equals("")){
+     Odgovor po = new Odgovor();
+     po.setTekst(ponudjeniodgovor3);
+     listaOdgovora.add(po);
+     
+    }
+    if(ponudjeniodgovor4!=null&&ponudjeniodgovor4.trim().equals("")){
+     Odgovor po = new Odgovor();
+     po.setTekst(ponudjeniodgovor4);
+     listaOdgovora.add(po);     
+    }
+    p.setOdgovorList(listaOdgovora);
+    
+    pitanja.add(p);    
+    tekst = null;
+    ponudjeniodgovor1 =null;
+    ponudjeniodgovor2 =null;
+    ponudjeniodgovor3 = null;
+    ponudjeniodgovor4 =null;
+    b+=1;
+    
+    if(b >=20){
+     maksimalanBrojPitanja = "dozvoljeno je maksimalno 20 pitanja"; 
+     disabled = true;
+    }
+    
+    }
+    
+    public void registruj(){
+         HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+         
+        if (user.getAttribute("ulogovaniKorisnik") != null) {
             i = (Investitor) user.getAttribute("ulogovaniKorisnik");
             anketa.setInvestitorIdId(i);
-        } else{
-            return "/index";
-        }
-            Session session = HibernateUtil.createSessionFactory().openSession();
-            Transaction tx = null;
-
-            try {
-                tx = session.beginTransaction();
-
-                session.save(anketa);
-
-                for (Pitanja p : pitanja) {
-                    session.save(p);
-                }
-                anketa.setPitanjaCollection(pitanja);
-                session.save(anketa);
-
-                tx.commit();
-                return "/Vesti";
-            } catch (HibernateException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                System.out.println(e);
-                return null;
-            } finally {
-                if (session != null) {
-                    try {
-                        session.close();
-                    } catch (HibernateException ignored) {
-                        System.out.println("Couldn't close Session " + ignored);
-                    }
-                }
+        
+    Session session = HibernateUtil.createSessionFactory().openSession();
+    Transaction tx = null;
+  
+    try{
+        tx = session.beginTransaction();
+        
+        session.save(anketa);
+        
+        for(Pitanje p : pitanja){
+            for(Odgovor po : p.getOdgovorList()){
+                 session.save(po);
             }
-
+               session.save(p);
         }
-
+           ;
+        anketa.setPitanjeList(pitanja);
+        session.save(anketa);
+          
+        tx.commit();
     }
+    catch(HibernateException e){
+    if(tx!=null){
+        tx.rollback();
+    }
+        System.out.println(e);    
+    }
+    finally{
+       if (session != null) {
+            try {
+                session.close();
+            } catch (HibernateException ignored) {
+                System.out.println("Couldn't close Session "+ ignored);
+            }
+        }  
+    }
+        } 
+    }
+    
+    }
+
+
+    

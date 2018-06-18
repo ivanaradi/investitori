@@ -8,17 +8,17 @@ package model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,13 +30,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Korisnik
  */
 @Entity
-@Table(name = "odgovor")
+@Table(name = "pitanje")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Odgovor.findAll", query = "SELECT o FROM Odgovor o")
-    , @NamedQuery(name = "Odgovor.findById", query = "SELECT o FROM Odgovor o WHERE o.id = :id")
-    , @NamedQuery(name = "Odgovor.findByTekst", query = "SELECT o FROM Odgovor o WHERE o.tekst = :tekst")})
-public class Odgovor implements Serializable {
+    @NamedQuery(name = "Pitanje.findAll", query = "SELECT p FROM Pitanje p")
+    , @NamedQuery(name = "Pitanje.findById", query = "SELECT p FROM Pitanje p WHERE p.id = :id")
+    , @NamedQuery(name = "Pitanje.findByTekst", query = "SELECT p FROM Pitanje p WHERE p.tekst = :tekst")})
+public class Pitanje implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,23 +49,20 @@ public class Odgovor implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "tekst")
     private String tekst;
-    @JoinTable(name = "odgovor_has_startap", joinColumns = {
-        @JoinColumn(name = "odgovorId", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "startapId", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Startap> startapList;
-    @JoinColumn(name = "pitanjeId", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pitanjeId")
+    private List<Odgovor> odgovorList;
+    @JoinColumn(name = "anketaId", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Pitanje pitanjeId;
+    private Anketa anketaId;
 
-    public Odgovor() {
+    public Pitanje() {
     }
 
-    public Odgovor(Integer id) {
+    public Pitanje(Integer id) {
         this.id = id;
     }
 
-    public Odgovor(Integer id, String tekst) {
+    public Pitanje(Integer id, String tekst) {
         this.id = id;
         this.tekst = tekst;
     }
@@ -87,20 +84,20 @@ public class Odgovor implements Serializable {
     }
 
     @XmlTransient
-    public List<Startap> getStartapList() {
-        return startapList;
+    public List<Odgovor> getOdgovorList() {
+        return odgovorList;
     }
 
-    public void setStartapList(List<Startap> startapList) {
-        this.startapList = startapList;
+    public void setOdgovorList(List<Odgovor> odgovorList) {
+        this.odgovorList = odgovorList;
     }
 
-    public Pitanje getPitanjeId() {
-        return pitanjeId;
+    public Anketa getAnketaId() {
+        return anketaId;
     }
 
-    public void setPitanjeId(Pitanje pitanjeId) {
-        this.pitanjeId = pitanjeId;
+    public void setAnketaId(Anketa anketaId) {
+        this.anketaId = anketaId;
     }
 
     @Override
@@ -113,10 +110,10 @@ public class Odgovor implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Odgovor)) {
+        if (!(object instanceof Pitanje)) {
             return false;
         }
-        Odgovor other = (Odgovor) object;
+        Pitanje other = (Pitanje) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -125,7 +122,7 @@ public class Odgovor implements Serializable {
 
     @Override
     public String toString() {
-        return "paket.Odgovor[ id=" + id + " ]";
+        return "paket.Pitanje[ id=" + id + " ]";
     }
     
 }

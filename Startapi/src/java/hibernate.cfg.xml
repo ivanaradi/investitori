@@ -32,8 +32,8 @@
     <mapping class = "model.Odgovor"></mapping>
     <mapping class = "model.Oglas"></mapping>
     <mapping class = "model.Opstina"></mapping>
-    <mapping class = "model.Pitanja"></mapping>
-    <mapping class = "model.Ponudjeniodgovori"></mapping>
+    <mapping class = "model.Pitanje"></mapping>
+    <mapping class = "model.Odgovor"></mapping>
     <mapping class = "model.Profesionalnevestine"></mapping>
     <mapping class = "model.Projekat"></mapping>
     <mapping class = "model.Startap"></mapping>

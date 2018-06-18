@@ -7,6 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -60,19 +61,25 @@ public class Anketa implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "javna")
-    @Type(type="boolean")
-    private boolean javna;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "anketaId")
-    private Collection<Pitanja> pitanjaCollection;
+    private Boolean javna;
     @JoinColumn(name = "investitorIdId", referencedColumnName = "Id")
     @ManyToOne
     private Investitor investitorIdId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "anketaId")
+    private List<Pitanje> pitanjeList;
 
     public Anketa() {
     }
 
     public Anketa(Integer id) {
         this.id = id;
+    }
+
+    public Anketa(Integer id, String naziv, String opis, boolean javna) {
+        this.id = id;
+        this.naziv = naziv;
+        this.opis = opis;
+        this.javna = javna;
     }
 
     public Integer getId() {
@@ -107,15 +114,6 @@ public class Anketa implements Serializable {
         this.javna = javna;
     }
 
-    @XmlTransient
-    public Collection<Pitanja> getPitanjaCollection() {
-        return pitanjaCollection;
-    }
-
-    public void setPitanjaCollection(Collection<Pitanja> pitanjaCollection) {
-        this.pitanjaCollection = pitanjaCollection;
-    }
-
     public Investitor getInvestitorIdId() {
         return investitorIdId;
     }
@@ -124,4 +122,38 @@ public class Anketa implements Serializable {
         this.investitorIdId = investitorIdId;
     }
 
+    @XmlTransient
+    public List<Pitanje> getPitanjeList() {
+        return pitanjeList;
+    }
+
+    public void setPitanjeList(List<Pitanje> pitanjeList) {
+        this.pitanjeList = pitanjeList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Anketa)) {
+            return false;
+        }
+        Anketa other = (Anketa) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "paket.Anketa[ id=" + id + " ]";
+    }
+    
 }

@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -58,8 +59,8 @@ public class Startap  extends Korisnik implements Serializable {
     @Column(name = "reference")
     private String reference;
     @OneToMany(mappedBy = "startapId")
-    private Collection<Projekat> projekatCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startapId")
+    private Collection<Projekat> projekatCollection;    
+    @ManyToMany(mappedBy = "startapList")
     private List<Odgovor> odgovorList;
 //    @OneToMany(mappedBy = "startapId")
 //    private Collection<Odgovor> odgovorCollection;

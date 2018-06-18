@@ -34,8 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Projekat.findByNaziv", query = "SELECT p FROM Projekat p WHERE p.naziv = :naziv")
     , @NamedQuery(name = "Projekat.findByTrazeniIznos", query = "SELECT p FROM Projekat p WHERE p.trazeniIznos = :trazeniIznos")
     , @NamedQuery(name = "Projekat.findByStatusIntelektualneSvoine", query = "SELECT p FROM Projekat p WHERE p.statusIntelektualneSvoine = :statusIntelektualneSvoine")
-    , @NamedQuery(name = "Projekat.findByPodaci", query = "SELECT p FROM Projekat p WHERE p.podaci = :podaci")
-    , @NamedQuery(name = "Projekat.findByLogo", query = "SELECT p FROM Projekat p WHERE p.logo = :logo")})
+    , @NamedQuery(name = "Projekat.findByPodaci", query = "SELECT p FROM Projekat p WHERE p.podaci = :podaci")})
 public class Projekat implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,10 +60,7 @@ public class Projekat implements Serializable {
     @NotNull
     @Size(min = 1, max = 1024)
     @Column(name = "podaci")
-    private String podaci;
-    @Size(max = 50)
-    @Column(name = "logo")
-    private String logo;
+    private String podaci;  
     @JoinColumn(name = "startapId", referencedColumnName = "id")
     @ManyToOne
     private Startap startapId;
@@ -124,13 +120,7 @@ public class Projekat implements Serializable {
         this.podaci = podaci;
     }
 
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
+ 
 
     public Startap getStartapId() {
         return startapId;

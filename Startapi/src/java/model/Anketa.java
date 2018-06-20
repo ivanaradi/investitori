@@ -67,7 +67,7 @@ public class Anketa implements Serializable {
     private Investitor investitorIdId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "anketaId")
     private List<Pitanje> pitanjeList;
-
+//aa
     public Anketa() {
     }
 

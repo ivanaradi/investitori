@@ -32,6 +32,17 @@
                     <br/>
                     Tekst vesti:
                     <p:textEditor id="teksteditor" widgetVar="editor1" value="#{dodajVest.vest.tekst}" height="300" required="true" requiredMessage="Morati uneti tekst vesti"></p:textEditor>
+                    <p:fileUpload id="upload" 
+                                  fileUploadListener="#{dodajVest.uploadListener}"
+                                  label="Ubacite sliku"
+                                  mode="advanced"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                  update="teksteditor">
+                    </p:fileUpload>
+
+
+
+
                     <br/>
                     <button type="button" onclick="PF('editor1').clear();" icon="ui-icon-close" class="btn btn-outline-dark m-2">Clear</button>
                     <h:message for="teksteditor"></h:message> 
@@ -51,7 +62,7 @@
 
                         Datum objavljivanja: 
                         <h:panelGroup> <p:calendar id="button" value="#{dodajVest.vest.vremeKreiranja}" navigator="true" locale="sr" yearRange="c-100:c+100"  showOn="button" pattern="dd/MM/yyyy HH:mm" />
-                        
+
                             <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                                 <p:panelGrid id="display" columns="2" columnClasses="label,value">
                                     <h:outputText value="#{dodajVest.vest.vremeKreiranja}">
@@ -74,7 +85,7 @@
                             <f:selectItem itemLabel="pretrazi investitore" itemValue="pretragaInv"></f:selectItem>
                             <f:ajax event="change" execute="@this" render="pretraga" listener="#{dodajVest.otvoriPoljaZaPretragu()}" />
                         </p:selectOneMenu>   
-                            <h:outputLink id="dostupnost" value="#">
+                        <h:outputLink id="dostupnost" value="#">
                             <h:outputText class="fa fa-question-circle text-muted"></h:outputText>
                         </h:outputLink>
                         <p:tooltip id="toolTipDostupnost" for="dostupnost" style="width:400px" value="Mozete izabrati da li ce vasa vest biti javna, dostupna samo registrovanim startap kompanijama ili samo registrovanim investitorima i mozete pretraziti startap kompanije i investitore i izabrati kompanije koje zelite da mogu da vide vasu vest" position="right"/>
@@ -88,7 +99,7 @@
                             </ui:insert>
                             <span class="input-group-btn">
                                 <h:commandButton action="#{dodajVest.pretraziSt()}" value="Pretrazi" class="btn btn-outline-dark m-2">
-                                    <p:ajax process="startap" update="rezultatiStartap growl"></p:ajax>
+                                    <p:ajax process="startap" update="rezultatiStartap"></p:ajax>
                                 </h:commandButton>
                             </span>
 
@@ -112,7 +123,7 @@
 
                             <span class="input-group-btn">
                                 <h:commandButton id="pretraziDugme" action="#{dodajVest.pretraziIn()}" value="Pretrazi" class="btn btn-outline-dark m-2">
-                                    <p:ajax process="investitori" update="rezultatiInvestitor growl"></p:ajax>
+                                    <p:ajax process="investitori" update="rezultatiInvestitor"></p:ajax>
                                 </h:commandButton>
                             </span>
                             <br/>

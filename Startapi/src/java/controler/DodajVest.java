@@ -21,13 +21,13 @@ import model.Korisnik;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DualListModel;
 
 /**
  *
  * @author Korisnik
  */
-
 //dodajem koment
 @ManagedBean
 @ViewScoped
@@ -314,7 +314,7 @@ public class DodajVest implements Serializable {
     }
 
     public void prikaziIzgledVesti() {
-        
+
     }
 
     /*
@@ -370,7 +370,7 @@ public class DodajVest implements Serializable {
             if (!izabraniKor.isEmpty()) {
                 vest.setKorisnikCollection(izabraniKor);
             }
-            if(vest.getVremeKreiranja() == null){
+            if (vest.getVremeKreiranja() == null) {
                 vest.setVremeKreiranja(new Date());
             }
         }
@@ -399,5 +399,11 @@ public class DodajVest implements Serializable {
 
         }
     }
+
+//    public void uploadListener() {
+//        String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("teksteditor_input");
+//        setText(value + "<img src=\"/uploads/" + result.getName() + "\" />");
+//        RequestContext.getCurrentInstance().update("editor_input");
+//    }
 
 }

@@ -46,7 +46,7 @@ public class Odgovor implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "tekst")
     private String tekst;
     @JoinTable(name = "odgovor_has_startap", joinColumns = {

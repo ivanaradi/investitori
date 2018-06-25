@@ -1,6 +1,7 @@
 
 package controler;
 
+import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -38,10 +39,10 @@ public class ProveraKodaInvestitora {
         System.out.println("kod od ranije" + kod);
         System.out.println("novi kod sa maila " + noviKod);
         if(noviKod.equals(kod)){
-          Session session = HibernateUtil.createSessionFactory().openSession();
+        Session session = HibernateUtil.createSessionFactory().openSession();
         Transaction tx = null;
         
-        if(ulicaStr.trim()!=""&&opstina!=null){
+        if(ulicaStr!=null&&ulicaStr.trim()!=""&&opstina!=null){
             
            int id = opstina.getIdopstina();
 
@@ -66,11 +67,14 @@ public class ProveraKodaInvestitora {
         }    
         
 
-        investitor.setUlicaId(ulica);
+        investitor.setUlicaId(ulica);        
         
         
         System.out.println("investitor ulica id:" + ulica.getId() + "investitor naziv ulice :" + ulica.getNaziv());
         }
+        
+        investitor.setDatumRegistracije(new Date());
+        investitor.setDatumposlednjeglogovanja(new Date());
     try {
             tx = session.beginTransaction();
             session.save(investitor);

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpSession;
 import model.Anketa;
 import model.Investitor;
@@ -34,7 +36,7 @@ public class registrujAnketu  implements Serializable {
     byte b = 0;
     boolean disabled = false;
     
-    List<Pitanje> pitanja = new ArrayList();
+    List<Pair<Pitanje,List<Odgovor>>> pitanja = new ArrayList();
 
     public String getPonudjeniodgovor1() {
         return ponudjeniodgovor1;
@@ -99,7 +101,26 @@ public class registrujAnketu  implements Serializable {
     public Anketa getAnketa() {
         return anketa;
     }
-
+     public void promeniPonudjeniodgovor1(AjaxBehaviorEvent e) {
+        ponudjeniodgovor1 = (String) ((UIOutput) e.getSource()).getValue();
+         System.out.println(ponudjeniodgovor1);
+        
+    }
+    public void promeniPonudjeniodgovor2(AjaxBehaviorEvent e) {
+        ponudjeniodgovor2 = (String) ((UIOutput) e.getSource()).getValue();
+        System.out.println(ponudjeniodgovor2);
+        
+    }
+     public void promeniPonudjeniodgovor3(AjaxBehaviorEvent e) {
+        ponudjeniodgovor3 = (String) ((UIOutput) e.getSource()).getValue();
+        System.out.println(ponudjeniodgovor3);
+        
+    }
+      public void promeniPonudjeniodgovor4(AjaxBehaviorEvent e) {
+        ponudjeniodgovor4 = (String) ((UIOutput) e.getSource()).getValue();
+        System.out.println(ponudjeniodgovor4);
+        
+    }
 //    public Investitor getI() {
 //        return i;
 //    }
@@ -109,37 +130,59 @@ public class registrujAnketu  implements Serializable {
 //    } 
     
     public void dodajPitanje(){
+    System.out.println("asdasdasdasdasdasda dodja");
+     System.out.println(ponudjeniodgovor4);
+      System.out.println(ponudjeniodgovor3);
+       System.out.println(ponudjeniodgovor2);
+        System.out.println(ponudjeniodgovor1);
     Pitanje p = new Pitanje();
     p.setTekst(tekst);
     p.setAnketaId(anketa);
     List<Odgovor> listaOdgovora = new ArrayList();
+    Pair<Pitanje,List<Odgovor>> pair;
+    System.out.println(ponudjeniodgovor4);
+      System.out.println(ponudjeniodgovor3);
+       System.out.println(ponudjeniodgovor2);
+        System.out.println(ponudjeniodgovor1);
     
-    if(ponudjeniodgovor1!=null&&ponudjeniodgovor1.trim().equals("")){
+    if(ponudjeniodgovor1!=null&&!ponudjeniodgovor1.trim().equals("")){
      Odgovor po = new Odgovor();
      po.setTekst(ponudjeniodgovor1);
+     po.setPitanjeId(p);
      listaOdgovora.add(po);
+     System.out.println(ponudjeniodgovor1+" aaa");
      
     }
-    if(ponudjeniodgovor2!=null&&ponudjeniodgovor2.trim().equals("")){
-     Odgovor po = new Odgovor();
+    if(ponudjeniodgovor2!=null&&!ponudjeniodgovor2.trim().equals("")){
+     
+        System.out.println("nije null");
+        Odgovor po = new Odgovor();
      po.setTekst(ponudjeniodgovor2);
+     po.setPitanjeId(p);
      listaOdgovora.add(po);
+     System.out.println(ponudjeniodgovor2+" aaa");
      
     }
-    if(ponudjeniodgovor3!=null&&ponudjeniodgovor3.trim().equals("")){
+    if(ponudjeniodgovor3!=null&&!ponudjeniodgovor3.trim().equals("")){
      Odgovor po = new Odgovor();
      po.setTekst(ponudjeniodgovor3);
+     po.setPitanjeId(p);
      listaOdgovora.add(po);
+     System.out.println(ponudjeniodgovor3+" aaa");
      
     }
-    if(ponudjeniodgovor4!=null&&ponudjeniodgovor4.trim().equals("")){
+    if(ponudjeniodgovor4!=null&&!ponudjeniodgovor4.trim().equals("")){
      Odgovor po = new Odgovor();
      po.setTekst(ponudjeniodgovor4);
-     listaOdgovora.add(po);     
+     po.setPitanjeId(p);
+     listaOdgovora.add(po);
+     System.out.println(ponudjeniodgovor4+" aaa");     
     }
-    p.setOdgovorList(listaOdgovora);
+  
     
-    pitanja.add(p);    
+    pair = new Pair(p,listaOdgovora);
+    pitanja.add(pair);
+            
     tekst = null;
     ponudjeniodgovor1 =null;
     ponudjeniodgovor2 =null;
@@ -158,7 +201,11 @@ public class registrujAnketu  implements Serializable {
          HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
          
         if (user.getAttribute("ulogovaniKorisnik") != null) {
+            
+            System.out.println("naso ulogovanog korisnika !");
+            
             i = (Investitor) user.getAttribute("ulogovaniKorisnik");
+            System.out.println(i.getKorisnickoIme());
             anketa.setInvestitorIdId(i);
         
     Session session = HibernateUtil.createSessionFactory().openSession();
@@ -166,17 +213,30 @@ public class registrujAnketu  implements Serializable {
   
     try{
         tx = session.beginTransaction();
-        
+        List pitanjaAnkete = new ArrayList();
         session.save(anketa);
+        System.out.println("sacuvo anketu");
         
-        for(Pitanje p : pitanja){
-            for(Odgovor po : p.getOdgovorList()){
-                 session.save(po);
+        for(Pair p : pitanja){
+            Pitanje pitanje = (Pitanje)p.getLeft();
+            pitanje.setAnketaId(anketa);
+            List<Odgovor> ogdovori = (List<Odgovor>)p.getRight();
+            session.save(pitanje);
+             
+            for(Odgovor o : ogdovori){
+               o.setPitanjeId(pitanje);
+               session.save(o);               
             }
-               session.save(p);
+            
+          
+            
+            pitanje.setOdgovorList(ogdovori);
+            pitanjaAnkete.add(pitanje);
+           
+           
         }
            ;
-        anketa.setPitanjeList(pitanja);
+        anketa.setPitanjeList(pitanjaAnkete);
         session.save(anketa);
           
         tx.commit();

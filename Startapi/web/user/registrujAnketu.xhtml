@@ -40,19 +40,20 @@
                                 <p:ajax event="keyup" process="@this"  ></p:ajax>
                             </p:inputText>
                             ponudjeni odgovor:
-                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor1}" disabled="#{registrujAnketu.disabled}"> 
-                                <p:ajax event="keyup" process="@this" ></p:ajax>    
+                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor1}" > 
+                                <p:ajax event="keyup" listener="#{registrujAnketu.promeniPonudjeniodgovor1}" ></p:ajax>    
                             </p:inputText>
                             ponudjeni odgovor:
-                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor2}" disabled="#{registrujAnketu.disabled}">  
-                                <p:ajax event="keyup" process="@this" ></p:ajax>   
+                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor2}" >  
+                                <p:ajax event="keyup" listener="#{registrujAnketu.promeniPonudjeniodgovor2}" ></p:ajax>   
                             </p:inputText>
                             ponudjeni odgovor:
-                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor3}" disabled="#{registrujAnketu.disabled}"> 
-                                <p:ajax event="keyup" process="@this" ></p:ajax>
+                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor3}" > 
+                                <p:ajax event="keyup" listener="#{registrujAnketu.promeniPonudjeniodgovor3}" ></p:ajax>
                             </p:inputText>
                             ponudjeni odgovor:
-                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor4}" disabled="#{registrujAnketu.disabled}">                                
+                            <p:inputText  value="#{registrujAnketu.ponudjeniodgovor4}" >    
+                                 <p:ajax event="keyup" listener="#{registrujAnketu.promeniPonudjeniodgovor4}" ></p:ajax> 
                             </p:inputText>
                             <p:commandButton value="nista" >
                                 <p:ajax event="click" listener="#{registrujAnketu.dodajPitanje}" update ="ajaxforma" disabled="#{registrujAnketu.disabled}" ></p:ajax> 

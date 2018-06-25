@@ -66,7 +66,7 @@ public class OglasDAO {
     }
     
      public static ArrayList<Oglas> dohvatiPetOglasa(){
-        ArrayList<Oglas> oglasi;
+        ArrayList<Oglas> oglasi = null;
         Transaction transaction = null;
         Session session = HibernateUtil.createSessionFactory().openSession();
         String upit = "select o from Oglas o left join o.korisnikCollection kk where (o.vidljivost in (" + Vidljivost.SVI.getSifra();

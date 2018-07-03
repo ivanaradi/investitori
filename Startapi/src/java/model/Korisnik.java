@@ -63,7 +63,7 @@ import org.hibernate.annotations.LazyCollectionOption;
     , @NamedQuery(name = "Korisnik.findByBrojZaposlenih", query = "SELECT k FROM Korisnik k WHERE k.brojZaposlenih = :brojZaposlenih")
     , @NamedQuery(name = "Korisnik.findByPrihodUPoslednjeTriGodine", query = "SELECT k FROM Korisnik k WHERE k.prihodUPoslednjeTriGodine = :prihodUPoslednjeTriGodine")
     , @NamedQuery(name = "Korisnik.findByProfitUPoslednjeTriGodine", query = "SELECT k FROM Korisnik k WHERE k.profitUPoslednjeTriGodine = :profitUPoslednjeTriGodine")})
-@Inheritance(strategy=InheritanceType.JOINED)  
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Korisnik implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -116,7 +116,7 @@ public abstract class Korisnik implements Serializable {
     @Column(name = "telefon")
     private BigInteger telefon;
     @Size(max = 50)
-    @Column(name = "mail")    
+    @Column(name = "mail")
     private String mail;
     @Size(max = 100)
     @Column(name = "logo")
@@ -126,7 +126,7 @@ public abstract class Korisnik implements Serializable {
     private Date datumRegistracije;
     @Column(name = "datumposlednjeglogovanja")
     @Temporal(TemporalType.DATE)
-    private Date datumposlednjeglogovanja;    
+    private Date datumposlednjeglogovanja;
     @Size(max = 100)
     @Column(name = "webSite")
     private String webSite;
@@ -165,7 +165,7 @@ public abstract class Korisnik implements Serializable {
     private Collection<Temadiskusija> temadiskusijaCollection1;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "korisnik")
     private Statistike statistike;
-    @OneToMany(mappedBy = "korisnikId")    
+    @OneToMany(mappedBy = "korisnikId")
     private Collection<Vest> vestCollection1;
     @JoinColumn(name = "delatnostId", referencedColumnName = "id")
     @ManyToOne
@@ -182,8 +182,8 @@ public abstract class Korisnik implements Serializable {
 //    private Startap startap;
 //    @OneToOne(cascade = CascadeType.ALL, mappedBy = "korisnik")
 //    private Investitor investitor;
-    
-     @Column(name = "brojUlice")
+
+    @Column(name = "brojUlice")
     private Integer brojUlice;
 
     public Korisnik() {
@@ -192,7 +192,8 @@ public abstract class Korisnik implements Serializable {
     public Korisnik(Integer id) {
         this.id = id;
     }
-     public Korisnik(Integer id, String korisnickoIme) {
+
+    public Korisnik(Integer id, String korisnickoIme) {
         this.id = id;
         this.korisnickoIme = korisnickoIme;
     }
@@ -207,6 +208,12 @@ public abstract class Korisnik implements Serializable {
         this.pib = pib;
         this.ime = ime;
         this.prezime = prezime;
+    }
+
+    public Korisnik(Integer id, String korisnickoIme, String punNaziv){
+        this.id=id;
+        this.korisnickoIme = korisnickoIme;
+        this.punNaziv = punNaziv;
     }
 
     public Integer getId() {
@@ -248,7 +255,6 @@ public abstract class Korisnik implements Serializable {
     public void setDatumposlednjeglogovanja(Date datumposlednjeglogovanja) {
         this.datumposlednjeglogovanja = datumposlednjeglogovanja;
     }
-    
 
     public String getLozinka() {
         return lozinka;
@@ -401,8 +407,7 @@ public abstract class Korisnik implements Serializable {
     public void setObavestenjeCollection1(Collection<Obavestenje> obavestenjeCollection) {
         this.obavestenjeCollection1 = obavestenjeCollection;
     }
-  
-    
+
     @XmlTransient
     public Collection<Vest> getVestCollection() {
         return vestCollection;
@@ -523,7 +528,6 @@ public abstract class Korisnik implements Serializable {
 //    public void setInvestitor(Investitor investitor) {
 //        this.investitor = investitor;
 //    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -548,5 +552,5 @@ public abstract class Korisnik implements Serializable {
     public String toString() {
         return "model.Korisnik[ id=" + id + " ]";
     }
-    
+
 }

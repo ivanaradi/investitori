@@ -43,8 +43,7 @@
                             <p:panel id="o" header="#{oglas.naslov}" footer="Oglas istice: #{korisnikoviOglasi.dateToString(oglas.datumIVremePostavljanja)}" style="margin-bottom:20px">
                                 
                             <h:panelGrid columns="2" cellpadding="10">
-                                <p:graphicImage library="images" name="#{oglas.investitorId.logo}" width="30%" style="min-width: 100px"/>
-
+                               
                                 <h:outputText value="#{korisnikoviOglasi.napraviPreview(oglas.tekst)}" escape="false"/>
                                 <h:outputText rendered="#{oglas.vidljivost == 1}" value="Oglas je istekao" class="text-center" style="color:#85b2cb;"/>
                                 <h:link outcome="/Oglas" target="_blank">

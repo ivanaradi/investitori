@@ -34,7 +34,7 @@
                             <p:ajax event="change" update="@all"/>
                         </p:selectBooleanCheckbox>
                     </h:form>
-
+                    <h:panelGroup id="v">
                     <ui:repeat var="vest" value="#{korisnikoveVesti.dohvatiVesti()}">
 
                         <ui:fragment rendered="#{korisnikoveVesti.arhiviraneVesti and vest.vidljivost == 1}">
@@ -46,16 +46,19 @@
                                         <f:param name="naziv" value="#{vest.naziv}" />
                                         <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
                                     </h:link> <small style="text-align: right"> arhivirana vest</small>  
+                                    <h:form>
+                                        <p:commandButton  value="Izbrisi vest" action="#{izbrisiVest.izbrisiVest(vest)}">
+                                            <p:ajax update=":v"/>
+                                        </p:commandButton>
+                                        
+                                    </h:form>
+                                    
+                                    
                                 </div>
                                
                             </div>
                             
-<!--                            <h:link outcome="/Vest" target="_blank">
-                                <h:outputText style="margin:0 auto;" value=" #{vest.naziv}"/>
-                                <f:param name="naziv" value="#{vest.naziv}" />
-                                <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
-                            </h:link>
-                            -->
+
 
 
                         </ui:fragment>
@@ -68,18 +71,20 @@
                                         <f:param name="naziv" value="#{vest.naziv}" />
                                         <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
                                      </h:link>
+                                     <h:form>
+                                        <p:commandButton  value="Izbrisi vest" action="#{izbrisiVest.izbrisiVest(vest)}">
+                                            <p:ajax update=":v"/>
+                                        </p:commandButton>
+                                        
+                                    </h:form>
                                 </div>
                                
                             </div>
                             
-<!--                            <h:link outcome="/Vest" target="_blank">
-                                <h:outputText style="margin:0 auto;" value=" #{vest.naziv}"/>
-                                <f:param name="naziv" value="#{vest.naziv}" />
-                                <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
-                            </h:link>-->
 
                         </ui:fragment>
                     </ui:repeat>
+                        </h:panelGroup>
                 </div>
 
 

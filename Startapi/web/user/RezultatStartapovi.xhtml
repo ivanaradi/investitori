@@ -48,12 +48,21 @@
                     </f:facet>
                     <p:panel header="#{startap.punNaziv}" style="text-align:center">
                         <h:panelGrid columns="1" style="width:100%">
-                            <h:form>
-
-                                <h:commandLink value="pogledaj profil" action="#{pogledajProfilStartap.dohvatiStartapPoId()}">
-                                    <f:setPropertyActionListener value="#{startap}" target="#{pogledajProfilStartap.startap}"/>
-                                </h:commandLink>
-                            </h:form>
+                               <h:outputLink>
+                                <h:outputText style="margin:0 auto;" value="Pogledaj profil"/>
+                               
+                            </h:outputLink>
+                           
+                            <h:panelGroup>
+                                <h:form>
+                                Dodaj korisnika u grupu
+                                <p:selectOneMenu value="#{dodajKorisnikaUGrupu.izabranaGrupa}" converter="grupaconverter">
+                                    <f:selectItem itemLabel="Izaberite grupu" noSelectionOption="true"/>
+                                    <f:selectItems value="#{dodajKorisnikaUGrupu.grupe}" var="grupa" itemLabel="#{grupa.naziv}" itemValue="#{grupa}" itemDescription="#{grupa.opis}"/>
+                                </p:selectOneMenu>
+                                <h:commandButton action="#{dodajKorisnikaUGrupu.dodajKorisnika(startap)}" value="Dodaj"></h:commandButton>
+                                </h:form>
+                            </h:panelGroup>
                           
                         </h:panelGrid>
 

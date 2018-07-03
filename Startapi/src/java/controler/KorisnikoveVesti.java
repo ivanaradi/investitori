@@ -5,6 +5,7 @@
  */
 package controler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -24,7 +25,7 @@ import org.hibernate.Transaction;
  */
 @ManagedBean
 @ViewScoped
-public class KorisnikoveVesti {
+public class KorisnikoveVesti implements Serializable{
     private ArrayList<Vest> vesti;
     private boolean arhiviraneVesti = false;
 

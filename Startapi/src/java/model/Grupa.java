@@ -80,7 +80,15 @@ public class Grupa implements Serializable {
         this.naziv = naziv;
         this.opis = opis;
     }
-
+//g.id, g.naziv, g.opis, g.korisnikId.punNaziv, g.korisnikId.id
+    public Grupa(Integer id, String naziv, String opis, String punNaziv, Integer idKor){
+        this.id=id;
+        this.naziv= naziv;
+        this.opis = opis;
+        this.korisnikId.setPunNaziv(punNaziv);
+        this.korisnikId.setId(idKor);
+    }
+    
     public Integer getId() {
         return id;
     }

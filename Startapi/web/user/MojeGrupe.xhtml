@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>vesti</title>
+        <!-- nisu potrebni -->
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link href="../s.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+    <h:body>
+        <ui:composition template="../template/template.xhtml">
+
+            <ui:define name="sve"><h:link class="text-muted h5">Sve grupe</h:link></ui:define>
+            <ui:define name="pretraga"><h:link class="text-muted h5">Pretraga</h:link></ui:define>
+            <ui:define name="moje"><h:link outcome="/user/MojeGrupe" class="text-muted h5">Moje grupe</h:link></ui:define>
+            <ui:define name="objavi"><h:link outcome="/user/registrujGrupu" class="text-muted h5">Registracija grupe</h:link></ui:define>
+            <ui:define name="sadrzaj">
+                <div class="col-sm-12 border border-top-0 border-muted">
+                    <p class="text-muted h5"> Moje grupe: </p> 
+                   
+                    <h:panelGroup id="korGrupe">
+                        <ui:repeat  value="#{izbrisiGrupu.korisnikoveGrupe}" var="grupa">
+                            <h:outputText value="#{grupa.naziv}"/>
+                            <h:outputText value="#{grupa.opis}"/>
+                           
+                            <h:form id="izbrisi">
+                                <h:outputText value="Izbrisi grupu"/>
+                                <p:commandButton action="#{izbrisiGrupu.izbrisiGrupu(grupa)}" ajax="true" update="korGrupe">
+
+                                </p:commandButton>
+
+                            </h:form>
+                           
+
+                        </ui:repeat>
+                    </h:panelGroup>
+                    <ui:fragment  rendered="#{napustiGrupu.tip == 'startap'}">
+                        <h:panelGroup id="ng">
+                            <p class="text-muted h5"> Grupe kojih sam clan: </p>  
+                            <h:form id="napustiGrupu">
+                                <ui:repeat id="grupe" value="#{napustiGrupu.grupeGdeKorisnikClan}" var="grupa">
+                                    <h:outputText value="#{grupa.naziv}"/>
+                                    <h:outputText value="#{grupa.opis}"/>
+
+                                    <p:commandButton value="Napusti grupu" class="btn btn-outline-dark" ajax="true" actionListener="#{napustiGrupu.napustiGrupu(grupa)}" update="ng">
+
+                                    </p:commandButton>
+                                </ui:repeat>
+                            </h:form>
+
+                        </h:panelGroup>
+                    </ui:fragment>
+                   
+                </div>
+
+            </ui:define>
+            <ui:define name="jquery">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                            </ui:define>
+
+        </ui:composition>
+
+    </h:body>
+</html>

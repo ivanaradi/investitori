@@ -105,6 +105,14 @@ public class Oglas implements Serializable {
         this.datumIVremeIsteka = datumIVremeIsteka;
         this.tipOglasa = tipOglasa;
     }
+    
+    public Oglas(String naslov, String tekst, Date datumIVremePostavljanja, Date datumIVremeIsteka, String punNaziv){
+        this.naslov = naslov;
+        this.tekst=tekst;
+        this.datumIVremePostavljanja=datumIVremePostavljanja;
+        this.datumIVremeIsteka=datumIVremeIsteka;
+        this.investitorId.setPunNaziv(punNaziv);
+    }
 
     public Integer getId() {
         return id;

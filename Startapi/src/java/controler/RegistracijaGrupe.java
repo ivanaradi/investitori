@@ -5,6 +5,7 @@
  */
 package controler;
 
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -17,7 +18,7 @@ import org.hibernate.Transaction;
 
 @ManagedBean
 @ViewScoped
-public class RegistracijaGrupe {
+public class RegistracijaGrupe implements Serializable {
 
     private Grupa grupa = new Grupa();
 
@@ -33,9 +34,9 @@ public class RegistracijaGrupe {
         HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         Korisnik korisnik;
         if (user.getAttribute("ulogovaniKorisnik") == null) {
-           return "/index";
+            return "/index";
         } else {
-        
+
             korisnik = (Korisnik) user.getAttribute("ulogovaniKorisnik");
             grupa.setKorisnikId(korisnik);
         }
@@ -48,7 +49,7 @@ public class RegistracijaGrupe {
             session.save(grupa);
 
             tx.commit();
-            return "/user/dodajKorisnikeUGrupu"; 
+            return "/user/MojeGrupe?faces-redirect=true";
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
@@ -58,6 +59,7 @@ public class RegistracijaGrupe {
         } finally {
             if (session != null) {
                 try {
+                    session.flush();
                     session.close();
                 } catch (HibernateException ignored) {
                     System.out.println("Couldn't close Session " + ignored);

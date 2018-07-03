@@ -60,8 +60,8 @@ public class Startap  extends Korisnik implements Serializable {
     private String reference;
     @OneToMany(mappedBy = "startapId")
     private Collection<Projekat> projekatCollection;    
-    @ManyToMany(mappedBy = "startapList")
-    private List<Odgovor> odgovorList;
+//    @ManyToMany(mappedBy = "startapList")
+//    private List<Odgovor> odgovorList;
 //    @OneToMany(mappedBy = "startapId")
 //    private Collection<Odgovor> odgovorCollection;
 //    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -135,15 +135,15 @@ public class Startap  extends Korisnik implements Serializable {
     }
     
     
-    @XmlTransient
-    public List<Odgovor> getOdgovorList() {
-        return odgovorList;
-    }
-
-    public void setOdgovorList(List<Odgovor> odgovorList) {
-        this.odgovorList = odgovorList;
-    }
-    
+//    @XmlTransient
+//    public List<Odgovor> getOdgovorList() {
+//        return odgovorList;
+//    }
+//
+//    public void setOdgovorList(List<Odgovor> odgovorList) {
+//        this.odgovorList = odgovorList;
+//    }
+//    
 
 //    @XmlTransient
 //    public Collection<Odgovor> getOdgovorCollection() {

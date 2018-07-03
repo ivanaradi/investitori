@@ -6,7 +6,9 @@
 package controler;
 
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -26,6 +28,23 @@ import org.hibernate.Transaction;
 @ManagedBean
 @ViewScoped
 public class IzbrisiVest implements Serializable {
+    @ManagedProperty("#{korisnikoveVesti}")
+    private KorisnikoveVesti kv;
+    
+    @PostConstruct
+    public void init(){
+        kv = new KorisnikoveVesti();
+    }
+
+    public KorisnikoveVesti getKv() {
+        return kv;
+    }
+
+    public void setKv(KorisnikoveVesti kv) {
+        this.kv = kv;
+    }
+    
+    
 
     public void izbrisiVest(Vest v) {
 
@@ -46,7 +65,9 @@ public class IzbrisiVest implements Serializable {
             v = (Vest) q.list().get(0);
             session.delete(v);
             tr.commit();
-
+            tr = session.beginTransaction();
+            kv.dohvatiVesti();
+            tr.commit();
         } catch (HibernateException e) {
             if (tr != null) {
                 System.out.println(e);

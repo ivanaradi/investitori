@@ -35,61 +35,62 @@
                         </p:selectBooleanCheckbox>
                     </h:form>
                     <h:panelGroup id="v">
-                    <ui:repeat var="vest" value="#{korisnikoveVesti.dohvatiVesti()}">
+                        <ui:repeat var="vest" value="#{korisnikoveVesti.dohvatiVesti()}">
 
-                        <ui:fragment rendered="#{korisnikoveVesti.arhiviraneVesti and vest.vidljivost == 1}">
-                            
-                             <div class="row">
-                                <div class="col-sm-12">
-                                    <h:link outcome="/Vest" target="_blank" >
-                                        <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
-                                        <f:param name="naziv" value="#{vest.naziv}" />
-                                        <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
-                                    </h:link> <small style="text-align: right"> arhivirana vest</small>  
-                                    <h:form>
-                                        <p:commandButton  value="Izbrisi vest" action="#{izbrisiVest.izbrisiVest(vest)}">
-                                            <p:ajax update=":v"/>
-                                        </p:commandButton>
-                                        
-                                    </h:form>
-                                    
-                                    
+                            <ui:fragment rendered="#{korisnikoveVesti.arhiviraneVesti and vest.vidljivost == 1}">
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h:link outcome="/Vest" target="_blank" >
+                                            <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
+                                            <f:param name="naziv" value="#{vest.naziv}" />
+                                            <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                        </h:link> <small style="text-align: right"> arhivirana vest</small>  
+                                        <h:form>
+
+                                            <p:commandButton class="btn btn-outline-dark" value="Izbrisi vest" action="#{izbrisiVest.izbrisiVest(vest)}" ajax="true" update="v">
+
+                                            </p:commandButton>
+
+                                        </h:form>
+
+
+                                    </div>
+
                                 </div>
-                               
-                            </div>
-                            
 
 
 
-                        </ui:fragment>
-                        <ui:fragment rendered="#{vest.vidljivost!=1}">
-                            
-                             <div class="row">
-                                <div class="col-sm-12">
-                                    <h:link outcome="/Vest" target="_blank" >
-                                        <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
-                                        <f:param name="naziv" value="#{vest.naziv}" />
-                                        <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
-                                     </h:link>
-                                     <h:form>
-                                        <p:commandButton  value="Izbrisi vest" action="#{izbrisiVest.izbrisiVest(vest)}">
-                                            <p:ajax update=":v"/>
-                                        </p:commandButton>
-                                        
-                                    </h:form>
+
+                            </ui:fragment>
+                            <ui:fragment rendered="#{vest.vidljivost!=1}">
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h:link outcome="/Vest" target="_blank" >
+                                            <h:outputText class="h5 text-left" style="color:#85b2cb;text-transform: capitalize;" value="#{vest.naziv}"/>
+                                            <f:param name="naziv" value="#{vest.naziv}" />
+                                            <f:param name="d" value="#{procitajVest.dateToString(vest.vremeKreiranja)}"></f:param>
+                                        </h:link>
+                                        <h:form>
+                                            <p:commandButton class="btn btn-outline-dark" value="Izbrisi vest" action="#{izbrisiVest.izbrisiVest(vest)}" ajax="true" update="v">
+
+                                            </p:commandButton>
+
+                                        </h:form>
+                                    </div>
+
                                 </div>
-                               
-                            </div>
-                            
 
-                        </ui:fragment>
-                    </ui:repeat>
-                        </h:panelGroup>
+
+                            </ui:fragment>
+                        </ui:repeat>
+                    </h:panelGroup>
                 </div>
 
 
             </ui:define>
-        
+
         </ui:composition>
 
 

@@ -400,10 +400,10 @@ public class DodajVest implements Serializable {
         }
     }
 
-//    public void uploadListener() {
-//        String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("teksteditor_input");
-//        setText(value + "<img src=\"/uploads/" + result.getName() + "\" />");
-//        RequestContext.getCurrentInstance().update("editor_input");
-//    }
+    public void uploadListener() {
+        String value = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("teksteditor_input");
+        
+        RequestContext.getCurrentInstance().update("teksteditor_input");
+    }
 
 }

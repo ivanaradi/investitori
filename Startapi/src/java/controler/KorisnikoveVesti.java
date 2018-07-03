@@ -23,7 +23,7 @@ import org.hibernate.Transaction;
  *
  * @author Korisnik
  */
-@ManagedBean
+@ManagedBean (name = "korisnikoveVesti", eager = true)
 @ViewScoped
 public class KorisnikoveVesti implements Serializable{
     private ArrayList<Vest> vesti;
@@ -69,12 +69,13 @@ public class KorisnikoveVesti implements Serializable{
          
         }
         try {
+            transaction = ses.beginTransaction();
             Query query = ses.createQuery(upit);
            
-            if(!query.list().isEmpty()){
+          
                   vesti = (ArrayList<Vest>) query.list();
-                
-            }
+              
+            transaction.commit();
             return vesti;
         } catch (HibernateException e) {
             if (transaction != null) {

@@ -53,12 +53,45 @@ public class NapustiGrupu implements Serializable {
     public void init() {
         HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         k = (Korisnik) user.getAttribute("ulogovaniKorisnik");
-
-        grupeGdeKorisnikClan = GrupaDAO.dohvatiGrupeGdeKorisnikClan(k);
+        dohvatiGrupe(k);
+        // grupeGdeKorisnikClan = GrupaDAO.dohvatiGrupeGdeKorisnikClan(k);
 
         tip = (String) user.getAttribute("tip");
     }
 
+    public ArrayList<Grupa> dohvatiGrupe(Korisnik k) {
+
+        Transaction transaction = null;
+        Session session = HibernateUtil.createSessionFactory().openSession();
+        String upit = "select new Grupa(g.id, g.naziv, g.opis) from Grupa g join g.korisnikCollection kk where kk.id = :id";
+        try {
+            transaction = session.beginTransaction();
+            Query q = session.createQuery(upit);
+            q.setInteger("id", k.getId());
+         
+            grupeGdeKorisnikClan = (ArrayList<Grupa>) q.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println(e);
+            return null;
+        } finally {
+            if (session != null) {
+                try {
+                    session.flush();
+                    session.close();
+                } catch (HibernateException ignored) {
+                    System.out.println("Couldn't close Session " + ignored);
+                }
+            }
+        }
+        return grupeGdeKorisnikClan;
+    }
+
+    ;
+    
     public void napustiGrupu(Grupa g) {
         HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         Korisnik k = (Korisnik) user.getAttribute("ulogovaniKorisnik");
@@ -73,7 +106,9 @@ public class NapustiGrupu implements Serializable {
             gr.getKorisnikCollection().remove(k);
             session.update(gr);
             transaction.commit();
-            grupeGdeKorisnikClan = GrupaDAO.dohvatiGrupeGdeKorisnikClan(k);
+            transaction = session.beginTransaction();
+            grupeGdeKorisnikClan = (ArrayList<Grupa>) session.createQuery("select new Grupa(g.id, g.naziv, g.opis) from Grupa g join g.korisnikCollection kk where kk.id =" + k.getId()).list();
+            transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();

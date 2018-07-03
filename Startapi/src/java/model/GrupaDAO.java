@@ -38,9 +38,9 @@ public class GrupaDAO {
             q.setInteger("id", kor.getId());
 
             korisnikoveGrupe = (ArrayList<Grupa>) q.list();
-            
+
             session.flush();
-            
+
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -106,7 +106,7 @@ public class GrupaDAO {
         try {
             Query q = session.createQuery(upit);
             q.setInteger("id", kor.getId());
-
+           
             korisnikoveGrupe = (ArrayList<Grupa>) q.list();
             return korisnikoveGrupe;
         } catch (HibernateException e) {

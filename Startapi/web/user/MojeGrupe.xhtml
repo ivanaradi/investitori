@@ -23,46 +23,46 @@
             <ui:define name="sadrzaj">
                 <div class="col-sm-12 border border-top-0 border-muted">
                     <p class="text-muted h5"> Moje grupe: </p> 
-                   
+
                     <h:panelGroup id="korGrupe">
                         <ui:repeat  value="#{izbrisiGrupu.korisnikoveGrupe}" var="grupa">
                             <h:outputText value="#{grupa.naziv}"/>
                             <h:outputText value="#{grupa.opis}"/>
-                           
+
                             <h:form id="izbrisi">
-                                <h:outputText value="Izbrisi grupu"/>
-                                <p:commandButton action="#{izbrisiGrupu.izbrisiGrupu(grupa)}" ajax="true" update="korGrupe">
+                               
+                                <p:commandButton  value="Izbrisi grupu" class="btn btn-outline-dark" action="#{izbrisiGrupu.izbrisiGrupu(grupa)}" ajax="true" update="korGrupe">
 
                                 </p:commandButton>
 
                             </h:form>
-                           
+
 
                         </ui:repeat>
                     </h:panelGroup>
                     <ui:fragment  rendered="#{napustiGrupu.tip == 'startap'}">
                         <h:panelGroup id="ng">
                             <p class="text-muted h5"> Grupe kojih sam clan: </p>  
-                            <h:form id="napustiGrupu">
-                                <ui:repeat id="grupe" value="#{napustiGrupu.grupeGdeKorisnikClan}" var="grupa">
-                                    <h:outputText value="#{grupa.naziv}"/>
-                                    <h:outputText value="#{grupa.opis}"/>
 
-                                    <p:commandButton value="Napusti grupu" class="btn btn-outline-dark" ajax="true" actionListener="#{napustiGrupu.napustiGrupu(grupa)}" update="ng">
+                            <ui:repeat id="grupe" value="#{napustiGrupu.grupeGdeKorisnikClan}" var="grupa">
+                                <h:outputText value="#{grupa.naziv}"/>
+                                <h:outputText value="#{grupa.opis}"/>
+                                <h:form id="napustiGrupu">
+                                    <p:commandButton value="Napusti grupu" class="btn btn-outline-dark" ajax="true" action="#{napustiGrupu.napustiGrupu(grupa)}" update="ng">
 
                                     </p:commandButton>
-                                </ui:repeat>
+                           
                             </h:form>
-
+ </ui:repeat>
                         </h:panelGroup>
                     </ui:fragment>
-                   
+
                 </div>
 
             </ui:define>
             <ui:define name="jquery">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                            </ui:define>
+            </ui:define>
 
         </ui:composition>
 

@@ -60,7 +60,7 @@ public class DohvatiVesti implements Serializable{
             upit += ") or " + kor.getId() + " = kk.id) or v.korisnikId =" + kor.getId() +"  order by v.vremeKreiranja DESC";
         }
         try {
-            Query query = ses.createQuery(upit).setMaxResults(10);
+            Query query = ses.createQuery(upit);//.setMaxResults(10);
             if(!query.list().isEmpty()){
                   vesti = (ArrayList<Vest>) query.list();
                 

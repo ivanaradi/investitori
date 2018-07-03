@@ -25,7 +25,7 @@ public class OglasDAO {
         ArrayList<Oglas> oglasi;
         Transaction transaction = null;
         Session session = HibernateUtil.createSessionFactory().openSession();
-        String upit = "select o from Oglas o left join o.korisnikCollection kk where (o.vidljivost in (" + Vidljivost.SVI.getSifra();
+       String upit = "select new Oglas(o.naslov, o.tekst, o.datumIVremePostavljanja, o.datumIVremeIsteka, o.investitorId.punNaziv) from Oglas o left join o.korisnikCollection kk where (o.vidljivost in (" + Vidljivost.SVI.getSifra();
        
         HttpSession user = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (user.getAttribute("ulogovaniKorisnik") == null) {
@@ -66,7 +66,7 @@ public class OglasDAO {
     }
     
      public static ArrayList<Oglas> dohvatiPetOglasa(){
-        ArrayList<Oglas> oglasi;
+        ArrayList<Oglas> oglasi = null;
         Transaction transaction = null;
         Session session = HibernateUtil.createSessionFactory().openSession();
         String upit = "select o from Oglas o left join o.korisnikCollection kk where (o.vidljivost in (" + Vidljivost.SVI.getSifra();

@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.annotations.Type;
+
 
 /**
  *
@@ -61,7 +61,7 @@ public class Anketa implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "javna")
-    private Boolean javna;
+    private boolean javna;
     @JoinColumn(name = "investitorIdId", referencedColumnName = "Id")
     @ManyToOne
     private Investitor investitorIdId;

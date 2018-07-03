@@ -34,9 +34,7 @@ import model.Opstina;
 import model.OpstinaDAO;
 import model.Ulica;
 import model.UlicaDAO;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 //import org.primefaces.event.FileUploadEvent;
 //import org.primefaces.model.UploadedFile;
 
